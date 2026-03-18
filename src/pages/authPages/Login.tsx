@@ -3,14 +3,16 @@ import type { EmailLogin, LoginError } from "../../interface/auth.type";
 // import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { EmailLoginApi } from "../../services/NwConfig";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-    // const navigator = useNavigate();
+    const navigator = useNavigate();
     const [formData , setFormData] = useState<EmailLogin>({
         email: '',
         password: '',
         authType: 'email'
     })
+      const [isLoading, setLoading] = useState<boolean>(false)
 
     const [errors, setErrors] = useState<LoginError>()
     
@@ -49,29 +51,30 @@ export default function Login() {
 
          const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
                 e.preventDefault();
+                setLoading(true);
                 console.log("form data :", formData);
 
                 const isValid = validate()
                 if (!isValid) {
+                    setLoading(false);
                     return console.log("fals, submit data:", formData);
                 }
         
                 const ApiResponce = await EmailLoginApi(formData)
                 if (ApiResponce.success) {
+                    setLoading(false)
+                    // console.log("api responce :",ApiResponce);
+                    localStorage.setItem("token", ApiResponce.data)
                     Swal.fire({
                         title: "User Login successfully",
                         icon: "success",
                         showConfirmButton: false,
                         timer: 2000
                     });
-                    // setFormData({
-                    //     email: '',
-                    //     password: '',
-                    //     authType: 'email'
-                    // })
-                    // navigator("/login")
+                    navigator("/")
                 } else {
                     // alert(ApiResponce.message)
+                    setLoading(false)
                      Swal.fire({
                         title: ApiResponce.message,
                         icon: "error",
@@ -111,7 +114,12 @@ export default function Login() {
                         />
                         {errors?.password && <p className="text-red-500 text-sm">{errors.password}</p>}
 
-                        <button type="submit" className="bg-blue-500 text-white p-2 m-2">Login</button>
+                        <button
+                            type="submit"
+                            className={`w-full my-2 bg-blue-500 ${isLoading ? "text-gray-200 hover:bg-blue-300" : "text-white hover:bg-blue-600"}  py-2 rounded-lg  transition`}
+                        >
+                            {isLoading ? "Logging in..." : "Login"}
+                        </button>
                     </form>
                         <p>Don't have an account? <a href="/signup" className="text-blue-500">Sign up</a></p>
                 </div>

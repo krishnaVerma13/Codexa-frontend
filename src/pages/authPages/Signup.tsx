@@ -14,6 +14,9 @@ export default function Signup() {
         authType: 'email'
     })
 
+    const [isLoading, setLoading] = useState<boolean>(false)
+
+
     const [errors, setErrors] = useState<SignupError>()
 
     // Block space in input fields
@@ -41,7 +44,7 @@ export default function Signup() {
     // Signup form validation messege 
     const validate = (): boolean => {
         const newErrors: SignupError = {}
-        console.log("validation :", formData);
+        // console.log("validation :", formData);
 
         if (!formData!.name.trim()) {
             newErrors.name = 'Name is required'
@@ -67,14 +70,17 @@ export default function Signup() {
 
 
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+        setLoading(true);
         e.preventDefault();
         const isValid = validate()
         if (!isValid) {
+            setLoading(false)
             return console.log("fals, submit data:", formData);
         }
 
         const ApiResponce = await EmailSignupApi(formData)
         if (ApiResponce.success) {
+            setLoading(false);
             Swal.fire({
                 title: "User created successfully",
                 icon: "success",
@@ -91,7 +97,8 @@ export default function Signup() {
             navigator("/verify-otp", { state: { email: formData.email } })
         } else {
             // alert(ApiResponce.message)
-             Swal.fire({
+                setLoading(false);
+            Swal.fire({
                 title: ApiResponce.message,
                 icon: "error",
                 showConfirmButton: false,
@@ -141,7 +148,12 @@ export default function Signup() {
                         />
                         {errors?.password && <p className="text-red-500 text-sm">{errors.password}</p>}
 
-                        <button type="submit" className="bg-blue-500 text-white p-2 m-2">Signup</button>
+                        <button
+                            type="submit"
+                            className={`w-full bg-blue-500 ${isLoading ? "text-gray-200 hover:bg-blue-300" : "text-white hover:bg-blue-600"}  py-2 rounded-lg  transition`}
+                        >
+                            {isLoading ? "Please wait..." : "Signup"}
+                        </button>
                     </form>
                 </div>
             </div>

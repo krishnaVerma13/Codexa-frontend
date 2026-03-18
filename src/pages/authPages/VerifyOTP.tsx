@@ -1,11 +1,23 @@
-import { useState, useRef, type ChangeEvent, type KeyboardEvent,type  ClipboardEvent } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useRef, type ChangeEvent, type KeyboardEvent, type ClipboardEvent } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { VerifyOTPApi } from "../../services/NwConfig";
+import Swal from "sweetalert2";
 
-export default function VerifyOTP(){
+interface ResStatus {
+  success: boolean;
+  message: string;
+}
 
-   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+export default function VerifyOTP() {
+
+  const navigator = useNavigate();
+  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+  const [resStatus, setResStatus] = useState<ResStatus>({
+    success: false,
+    message: "",
+  })
+  const [isLoading, setLoading] = useState<boolean>(false)
 
   const userEmail = useLocation();
 
@@ -39,19 +51,31 @@ export default function VerifyOTP(){
   };
 
   const handleSubmit = async (): Promise<void> => {
+    setLoading(true);
     const finalOtp = otp.join("");
     if (finalOtp.length !== 6) {
       alert("Please enter complete OTP");
+      setLoading(false);
       return;
     }
-    console.log("OTP Submitted , user email :", finalOtp , userEmail.state.email);
-
-    const responce= await VerifyOTPApi({email : userEmail.state.email, otp: finalOtp})
-    if(responce.success){
-        alert(responce.message)
+    // console.log("OTP Submitted , user email :", finalOtp , userEmail.state.email);
+    // console.log("otp : ",typeof(otp));
+    const responce = await VerifyOTPApi({ email: userEmail.state.email, otp: finalOtp })
+    if (responce.success) {
+      setLoading(false);
+      setResStatus({ success: true, message: responce.message })
+      Swal.fire({
+        title: "OTP verified successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      navigator("/login")
     } else {
-        alert(responce.message || "OTP verification failed")
+      setLoading(false);
+      setResStatus({ success: false, message: responce.message || "OTP verification failed" })
     }
+
   };
 
   return (
@@ -59,28 +83,31 @@ export default function VerifyOTP(){
       <div className="bg-white p-8 rounded-2xl shadow-lg w-[350px] text-center">
         <h2 className="text-2xl font-bold mb-2">Verify OTP</h2>
         <p className="text-gray-500 mb-6">Enter the 6-digit code</p>
-
-        <div className="flex justify-between mb-6" onPaste={handlePaste}>
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              type="text"
-              inputMode="numeric"
-              maxLength={1}
-              value={digit}
-              ref={(el) => {inputsRef.current[index] = el}}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e.target.value, index)}
-              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, index)}
-              className="w-12 h-12 text-center border rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          ))}
+        <div className="grid grid-flow-row mb-3 space-y-2">
+          <div className="flex justify-between" onPaste={handlePaste}>
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                ref={(el) => { inputsRef.current[index] = el }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e.target.value, index)}
+                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, index)}
+                className="w-12 h-12 text-center border rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            ))}
+          </div>
+          <p className={`text-lg font-medium ${resStatus.success ? "text-green-500" : "text-red-500"}`}>
+            {resStatus.message}
+          </p>
         </div>
-
         <button
           onClick={handleSubmit}
-          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+          className={`w-full bg-blue-500 ${isLoading ? "text-gray-200 hover:bg-blue-300" : "text-white hover:bg-blue-600"}  py-2 rounded-lg  transition`}
         >
-          Verify OTP
+          {isLoading ? "Verifying..." : "Verify OTP"}
         </button>
       </div>
     </div>
