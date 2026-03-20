@@ -1,0 +1,60 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Codexa Dark Color Palette */
+  --background: #06070A;
+  --surface: #0D1117;
+  --border-dim: #1E2330;
+  --muted-text: #454C5E;
+  --primary-text: #F0F2F5;
+  
+  /* Pastel Accents */
+  --pastel-mint: #B8F5D4;
+  --pastel-lavender: #D4BCFF;
+  --pastel-peach: #FFD4B8;
+  --pastel-sky: #B8E8FF;
+  --pastel-yellow: #FFF0A8;
+  
+  /* Fonts */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-accent: 'Playfair Display', serif;
+  --font-mono: 'DM Mono', monospace;
+  
+  /* Base unit */
+  --spacing-unit: 8px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-border-dim: var(--border-dim);
+  --color-muted-text: var(--muted-text);
+  --color-primary-text: var(--primary-text);
+  --color-pastel-mint: var(--pastel-mint);
+  --color-pastel-lavender: var(--pastel-lavender);
+  --color-pastel-peach: var(--pastel-peach);
+  --color-pastel-sky: var(--pastel-sky);
+  --color-pastel-yellow: var(--pastel-yellow);
+}
+
+@layer base {
+  * {
+    @apply border-border-dim;
+  }
+
+  body {
+    @apply bg-[#06070A] text-[#F0F2F5];
+    font-family: var(--font-mono);
+    font-weight: 300;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+}
