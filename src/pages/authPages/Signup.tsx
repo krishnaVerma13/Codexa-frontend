@@ -110,54 +110,115 @@ export default function Signup() {
     }
 
     return (
-        <div className="w-full h-screen bg-gray-200 flex items-center justify-center">
-            <div className="w-1/3 h-3/4 bg-white flex flex-col items-center justify-center space-y-2 " >
-                <h1 className="text-2xl ">Signup page</h1>
-                <div className="w-4/5  bg-gray-700 flex flex-col" >
-                    <form className="grid" onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData?.name}
-                            placeholder="Username"
-                            className="p-2 m-2"
-                            onChange={handleChange}
-                            onKeyDown={blockNameSpace}
-                        />
-                        {errors?.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+       <div className="w-full h-screen bg-[#06070A] flex items-center justify-center px-4">
+  <div className="w-full max-w-md flex flex-col">
 
-                        <input
-                            name="email"
-                            value={formData?.email}
-                            type="email"
-                            placeholder="Email"
-                            className="p-2 m-2"
-                            onChange={handleChange}
-                            onKeyDown={blockSpace}
-                        />
-                        {errors?.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+    {/* Header */}
+    <div className="mb-10">
+      <p className="font-mono text-sm tracking-[0.2em] uppercase text-[#454C5E] mb-2">
+        — New Account
+      </p>
+      <h1 className="font-display text-5xl tracking-wide text-[#F0F2F5] leading-none">
+        SIGN UP
+      </h1>
+    </div>
 
-                        <input
-                            name="password"
-                            value={formData?.password}
-                            type="password"
-                            placeholder="Password"
-                            className="p-2 m-2"
-                            onChange={handleChange}
-                            onKeyDown={blockSpace}
-                        />
-                        {errors?.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+    {/* Form */}
+    <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
 
-                        <button
-                            type="submit"
-                            className={`w-full bg-blue-500 ${isLoading ? "text-gray-200 hover:bg-blue-300" : "text-white hover:bg-blue-600"}  py-2 rounded-lg  transition`}
-                        >
-                            {isLoading ? "Please wait..." : "Signup"}
-                        </button>
-                    </form>
-                </div>
-            </div>
+      {/* Username */}
+      <div className="group relative">
+        <label className="block font-mono text-sm tracking-[0.14em] uppercase text-[#454C5E] mb-2 group-focus-within:text-[#B8F5D4] transition-colors duration-200">
+          Username
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={formData?.name}
+          placeholder="krishna_verma"
+          onChange={handleChange}
+          onKeyDown={blockNameSpace}
+          className="w-full bg-transparent border-0 border-b border-[#1E2330] focus:border-[rgba(184,245,212,0.5)] pb-2.5 pt-1 font-mono text-[0.82rem] font-light text-[#F0F2F5] placeholder-[#2A2E38] outline-none transition-colors duration-200"
+        />
+        {errors?.name && (
+          <p className="mt-1.5 font-mono text-[0.625rem] tracking-[0.08em] uppercase text-[#FFD4B8]">
+            {errors.name}
+          </p>
+        )}
+      </div>
 
-        </div>
+      {/* Email */}
+      <div className="group relative">
+        <label className="block font-mono text-sm tracking-[0.14em] uppercase text-[#454C5E] mb-2 group-focus-within:text-[#B8F5D4] transition-colors duration-200">
+          Email
+        </label>
+        <input
+          name="email"
+          value={formData?.email}
+          type="email"
+          placeholder="you@example.com"
+          onChange={handleChange}
+          onKeyDown={blockSpace}
+          className="w-full bg-transparent border-0 border-b border-[#1E2330] focus:border-[rgba(184,245,212,0.5)] pb-2.5 pt-1 font-mono text-[0.82rem] font-light text-[#F0F2F5] placeholder-[#2A2E38] outline-none transition-colors duration-200"
+        />
+        {errors?.email && (
+          <p className="mt-1.5 font-mono text-[0.625rem] tracking-[0.08em] uppercase text-[#FFD4B8]">
+            {errors.email}
+          </p>
+        )}
+      </div>
+
+      {/* Password */}
+      <div className="group relative">
+        <label className="block font-mono text-sm tracking-[0.14em] uppercase text-[#454C5E] mb-2 group-focus-within:text-[#B8F5D4] transition-colors duration-200">
+          Password
+        </label>
+        <input
+          name="password"
+          value={formData?.password}
+          type="password"
+          placeholder="••••••••"
+          onChange={handleChange}
+          onKeyDown={blockSpace}
+          className="w-full bg-transparent border-0 border-b border-[#1E2330] focus:border-[rgba(184,245,212,0.5)] pb-2.5 pt-1 font-mono text-[0.82rem] font-light text-[#F0F2F5] placeholder-[#2A2E38] outline-none transition-colors duration-200"
+        />
+        {errors?.password && (
+          <p className="mt-1.5 font-mono text-[0.625rem] tracking-[0.08em] uppercase text-[#FFD4B8]">
+            {errors.password}
+          </p>
+        )}
+      </div>
+
+      {/* Submit */}
+      <button
+        type="submit"
+        className={`w-full font-mono text-sm tracking-widest uppercase rounded-sm px-8 py-4 mt-2 flex items-center justify-center transition-all duration-200
+          ${isLoading
+            ? "border border-[#B8F5D4] text-[#B8F5D4] bg-[#B8F5D4]/10 cursor-not-allowed"
+            : "bg-[#B8F5D4] text-[#06070A] hover:bg-[#A5E5C1] hover:-translate-y-px"
+          }`}
+      >
+        {isLoading ? (
+          <span className="flex items-center gap-2">
+            <span className="w-3 h-3 border border-[#B8F5D4] border-t-transparent rounded-full animate-spin" />
+            Please wait...
+          </span>
+        ) : (
+          "Sign Up →"
+        )}
+      </button>
+
+    </form>
+
+    {/* Bottom */}
+    <div className="mt-10 pt-6 border-t border-[#1E2330] font-mono text-sm tracking-widest uppercase text-[#3e4352] text-center">
+      Already have an account?{" "}
+      <a href="/login" className="text-[#B8F5D4] hover:underline">
+        Log in →
+      </a>
+    </div>
+
+  </div>
+</div>
     )
 }

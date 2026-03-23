@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom"
 import { FiPlay } from "react-icons/fi";
 import { ScorePill } from "../components/ScorePill";
+import { IoMdTrendingUp } from "react-icons/io";
+import { LuSparkles } from "react-icons/lu";
+import { LuGithub } from "react-icons/lu";
+import FeatureCard from "../components/pageComponents/FeatureCard";
+import ProcessStep from "../components/pageComponents/ProcessStepProps";
+import { FaArrowRight } from "react-icons/fa";
 
 const HomePg = () => 
 {
@@ -9,7 +15,7 @@ const HomePg = () =>
         <div>
             {/* Hero Section */}
       <section className="min-h-screen pt-24 flex items-center px-12">
-        <div className="max-w-[1400px] mx-auto w-full grid grid-cols-2 gap-12 relative">
+        <div className="max-w-350 mx-auto w-full grid grid-cols-2 gap-12 relative">
           {/* Vertical Text */}
           <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16">
             <div className="transform -rotate-90 origin-center whitespace-nowrap font-mono text-xs text-[#454C5E]">
@@ -52,7 +58,7 @@ const HomePg = () =>
           
           {/* Right Panel - Score Ring */}
           <div className="flex items-center justify-center relative">
-            <div className="relative w-[400px] h-[400px]">
+            <div className="relative w-100 h-100">
               {/* Main Circle */}
               <svg className="w-full h-full transform -rotate-90">
                 <circle
@@ -105,19 +111,10 @@ const HomePg = () =>
           </div>
           
           {/* Diagonal Divider */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#B8F5D4]/30 to-transparent transform rotate-6" />
+          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-[#B8F5D4]/30 to-transparent transform rotate-6" />
         </div>
         
-        {/* Bottom Stats Bar */}
-        <div className="absolute bottom-10 left-12 right-12">
-          <div className="max-w-[1400px] mx-auto flex items-center gap-12 font-mono text-xs text-[#454C5E]">
-            <div>2,400+ <span className="text-[#F0F2F5]">Repos</span></div>
-            <div className="w-1 h-1 rounded-full bg-[#B8F5D4]" />
-            <div>5 <span className="text-[#F0F2F5]">Dimensions</span></div>
-            <div className="w-1 h-1 rounded-full bg-[#D4BCFF]" />
-            <div>Gemini AI <span className="text-[#F0F2F5]">Powered</span></div>
-          </div>
-        </div>
+        
       </section>
 
       {/* Marquee Section */}
@@ -175,7 +172,7 @@ const HomePg = () =>
               </div>
               <div className="relative z-10">
                 <div className="w-12 h-12 rounded-lg bg-[#B8F5D4]/10 flex items-center justify-center mb-6">
-                  <TrendingUp className="text-[#B8F5D4]" size={24} />
+                  <IoMdTrendingUp className="text-[#B8F5D4]" size={24}/>
                 </div>
                 <h3 className="font-display text-3xl text-[#F0F2F5] mb-4">
                   5-Dimension Skill Score
@@ -211,7 +208,7 @@ const HomePg = () =>
             {/* Small Cards */}
             <FeatureCard 
               number="02"
-              icon={<Sparkles className="text-[#D4BCFF]" size={24} />}
+              icon={<LuSparkles className="text-[#D4BCFF]" size={24} />}
               title="Behavioral Patterns"
               description="Discover your coding habits and patterns that define your engineering style."
               accentColor="lavender"
@@ -219,7 +216,7 @@ const HomePg = () =>
             
             <FeatureCard 
               number="03"
-              icon={<TrendingUp className="text-[#B8E8FF]" size={24} />}
+              icon={<IoMdTrendingUp className="text-[#B8E8FF]" size={24} />}
               title="Skill Growth Timeline"
               description="Track how your skills evolve across every commit and pull request."
               accentColor="sky"
@@ -227,7 +224,7 @@ const HomePg = () =>
             
             <FeatureCard 
               number="04"
-              icon={<Sparkles className="text-[#FFD4B8]" size={24} />}
+              icon={<LuSparkles className="text-[#FFD4B8]" size={24} />}
               title="AI Recommendations"
               description="Get personalized learning paths powered by Gemini AI analysis."
               accentColor="peach"
@@ -235,11 +232,141 @@ const HomePg = () =>
             
             <FeatureCard 
               number="05"
-              icon={<Github className="text-[#FFF0A8]" size={24} />}
+              icon={<LuGithub  className="text-[#FFF0A8]" size={24} />}
               title="GitHub Native"
               description="Seamlessly connects to your repositories with OAuth authentication."
               accentColor="yellow"
             />
+          </div>
+        </div>
+      </section>
+
+       {/* Statement Section */}
+      <section className="py-40 px-12 relative">
+        <div className="max-w-[1400px] mx-auto">
+          <h2 className="font-display text-[8vw] leading-none text-[#F0F2F5]">
+            YOUR COMMITS /<br />
+            <span className="text-transparent" style={{ WebkitTextStroke: '2px #F0F2F5' }}>
+              TELL THE TRUTH
+            </span><br />
+            ABOUT YOUR SKILLS.
+          </h2>
+          
+          <div className="absolute bottom-40 right-12">
+            <p className="font-mono text-xs text-[#454C5E] max-w-xs text-right font-light">
+              Most developers don't know how they're perceived by the code they ship.
+            </p>
+          </div>
+        </div>
+      </section>
+
+       {/* How It Works Section */}
+      <section id="process" className="py-40 px-12 bg-[#0D1117]">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-2 gap-12 mb-20">
+            <div>
+              <h2 className="font-display text-6xl text-[#F0F2F5]">
+                From repo to report
+              </h2>
+            </div>
+            <div className="flex items-end">
+              <p className="font-mono text-sm text-[#454C5E] font-light">
+                Four simple steps to unlock your developer intelligence profile.
+              </p>
+            </div>
+          </div>
+          
+          {/* Steps */}
+          <div className="grid grid-cols-4 gap-8 relative">
+            {/* Connecting Line */}
+            <div className="absolute top-8 left-8 right-8 h-[2px] bg-gradient-to-r from-[#B8F5D4] via-[#D4BCFF] via-[#B8E8FF] to-[#FFD4B8]" />
+            
+            <ProcessStep
+              number="01"
+              title="Connect GitHub"
+              description="Securely link your GitHub account with OAuth"
+              color="#B8F5D4"
+            />
+            <ProcessStep 
+              number="02"
+              title="Pick Repos"
+              description="Select which repositories you want analyzed"
+              color="#D4BCFF"
+            />
+            <ProcessStep 
+              number="03"
+              title="AI Reads Code"
+              description="Gemini AI analyzes patterns and quality metrics"
+              color="#B8E8FF"
+            />
+            <ProcessStep 
+              number="04"
+              title="Get Report"
+              description="Receive your comprehensive skill intelligence profile"
+              color="#FFD4B8"
+            />
+           
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="py-40 px-12">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-2 gap-16">
+          <div>
+            <h2 className="font-display text-7xl text-[#F0F2F5] mb-6">
+              Know your<br />real level.
+            </h2>
+            <p className="font-mono text-sm text-[#454C5E] mb-10 font-light">
+              Stop guessing. Start knowing. Get the data-driven insights that help you 
+              grow as a developer.
+            </p>
+            <div className="flex gap-4">
+              <Link 
+                to="/onboarding"
+                className="px-8 py-4 bg-[#B8F5D4] text-[#06070A] font-mono text-sm rounded-sm hover:bg-[#A5E5C1] transition-colors flex items-center gap-2"
+              >
+                Start Analysis <FaArrowRight  size={16} />
+              </Link>
+              <Link 
+                to="/dashboard"
+                className="px-8 py-4 border border-[#1E2330] text-[#F0F2F5] font-mono text-sm rounded-sm hover:border-[#B8F5D4] transition-colors"
+              >
+                View Demo Dashboard
+              </Link>
+            </div>
+          </div>
+          
+          {/* Sample Repo Card */}
+          <div className="bg-[#0D1117] border border-[#1E2330] rounded-xl p-8">
+            <div className="flex items-center justify-between mb-8">
+              <div className="font-mono text-xs uppercase text-[#454C5E]">
+                Sample Analysis
+              </div>
+              <div className="font-display text-4xl text-[#B8F5D4]">79</div>
+            </div>
+            
+            <div className="space-y-3">
+              {[
+                { name: 'react-portfolio', score: 84, color: '#B8F5D4' },
+                { name: 'api-backend', score: 91, color: '#D4BCFF' },
+                { name: 'e-commerce-shop', score: 67, color: '#FFD4B8' },
+                { name: 'chat-application', score: 55, color: '#FFF0A8' },
+              ].map((repo) => (
+                <div 
+                  key={repo.name}
+                  className="h-[52px] px-4 bg-[#06070A] border border-[#1E2330] rounded flex items-center justify-between hover:border-[#B8F5D4]/20 transition-colors"
+                >
+                  <div className="font-mono text-xs text-[#F0F2F5]">{repo.name}</div>
+                  <div 
+                    className="font-display text-lg"
+                    style={{ color: repo.color }}
+                  >
+                    {repo.score}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -249,3 +376,6 @@ const HomePg = () =>
 }
 
 export default HomePg
+
+
+

@@ -39,7 +39,7 @@ export default function Navbar({ variant = 'landing' }: NavbarProps){
               to="/onboarding"
               className="px-6 py-2.5 font-mono text-sm border border-[#B8F5D4] text-[#B8F5D4] rounded-sm hover:bg-[#B8F5D4]/10 transition-colors"
             >
-              Connect GitHub
+              Sign In
             </Link>
           </>
         )}
