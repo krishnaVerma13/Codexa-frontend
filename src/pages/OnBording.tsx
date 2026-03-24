@@ -4,7 +4,10 @@ import { BiLogIn } from "react-icons/bi";
 import { MdOutlineAssignmentInd } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 export default function OnBording() {
+
     const navigator = useNavigate()
+
+    
     return (<>
         <div className="min-h-screen bg-[#06070A]  px-12 py-10">
             {/* Logo */}
@@ -40,7 +43,7 @@ export default function OnBording() {
                         </p>
 
                         <button
-                            // onClick={() => setStep(2)}
+                            onClick={() => window.location.href = `http://localhost:5656/api/user/github`}
                             className="w-full px-8 py-4 bg-[#B8F5D4] text-[#06070A] font-mono text-sm rounded-sm 
                             hover:bg-[#A5E5C1] transition-colors flex items-center justify-center gap-3 mb-6 hoveer:cursor-pointer"
                         >

@@ -8,7 +8,7 @@ interface NavbarProps {
 export default function Navbar({ variant = 'landing' }: NavbarProps){
     return (
        <nav className="fixed top-0 left-0 right-0 z-50 bg-[#06070A]/80 backdrop-blur-md border-b border-[#1E2330]">
-      <div className="max-w-[1400px] mx-auto px-12 h-20 flex items-center justify-between">
+      <div className="max-w-350 mx-auto px-12 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <span className="font-display text-2xl tracking-wider text-[#F0F2F5]">
@@ -21,7 +21,7 @@ export default function Navbar({ variant = 'landing' }: NavbarProps){
         
         {variant === 'landing' && (
           <>
-            {/* Center Links */}
+            {/* Center Links */}  
             <div className="flex items-center gap-8 font-mono text-sm text-[#F0F2F5]">
               <a href="#features" className="hover:text-[#B8F5D4] transition-colors">
                 Features

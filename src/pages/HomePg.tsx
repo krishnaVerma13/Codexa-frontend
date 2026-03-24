@@ -7,12 +7,15 @@ import { LuGithub } from "react-icons/lu";
 import FeatureCard from "../components/pageComponents/FeatureCard";
 import ProcessStep from "../components/pageComponents/ProcessStepProps";
 import { FaArrowRight } from "react-icons/fa";
+import Navbar from "../components/Navbar";
+import { Footer } from "../components/Footer";
 
 const HomePg = () => 
 {
     
     return (
         <div>
+          <Navbar/>
             {/* Hero Section */}
       <section className="min-h-screen pt-24 flex items-center px-12">
         <div className="max-w-350 mx-auto w-full grid grid-cols-2 gap-12 relative">
@@ -147,7 +150,7 @@ const HomePg = () =>
 
        {/* Features Section */}
       <section id="features" className="py-40 px-12">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="max-w-350 mx-auto">
           <div className="grid grid-cols-2 gap-12 mb-16">
             <div>
               <h2 className="font-display text-6xl text-[#F0F2F5] leading-tight">
@@ -202,7 +205,7 @@ const HomePg = () =>
                   ))}
                 </div>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#B8F5D4] to-[#D4BCFF] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-[#B8F5D4] to-[#D4BCFF] opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             
             {/* Small Cards */}
@@ -243,7 +246,7 @@ const HomePg = () =>
 
        {/* Statement Section */}
       <section className="py-40 px-12 relative">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="max-w-350 mx-auto">
           <h2 className="font-display text-[8vw] leading-none text-[#F0F2F5]">
             YOUR COMMITS /<br />
             <span className="text-transparent" style={{ WebkitTextStroke: '2px #F0F2F5' }}>
@@ -262,7 +265,7 @@ const HomePg = () =>
 
        {/* How It Works Section */}
       <section id="process" className="py-40 px-12 bg-[#0D1117]">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="max-w-350 mx-auto">
           <div className="grid grid-cols-2 gap-12 mb-20">
             <div>
               <h2 className="font-display text-6xl text-[#F0F2F5]">
@@ -279,7 +282,7 @@ const HomePg = () =>
           {/* Steps */}
           <div className="grid grid-cols-4 gap-8 relative">
             {/* Connecting Line */}
-            <div className="absolute top-8 left-8 right-8 h-[2px] bg-gradient-to-r from-[#B8F5D4] via-[#D4BCFF] via-[#B8E8FF] to-[#FFD4B8]" />
+            <div className="absolute top-8 left-8 right-8 h-0.5 bg-linear-to-r from-[#B8F5D4] via-[#B8E8FF] to-[#FFD4B8]" />
             
             <ProcessStep
               number="01"
@@ -312,7 +315,7 @@ const HomePg = () =>
 
       {/* Final CTA Section */}
       <section className="py-40 px-12">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-2 gap-16">
+        <div className="max-w-350 mx-auto grid grid-cols-2 gap-16">
           <div>
             <h2 className="font-display text-7xl text-[#F0F2F5] mb-6">
               Know your<br />real level.
@@ -355,7 +358,7 @@ const HomePg = () =>
               ].map((repo) => (
                 <div 
                   key={repo.name}
-                  className="h-[52px] px-4 bg-[#06070A] border border-[#1E2330] rounded flex items-center justify-between hover:border-[#B8F5D4]/20 transition-colors"
+                  className="h-13 px-4 bg-[#06070A] border border-[#1E2330] rounded flex items-center justify-between hover:border-[#B8F5D4]/20 transition-colors"
                 >
                   <div className="font-mono text-xs text-[#F0F2F5]">{repo.name}</div>
                   <div 
@@ -370,7 +373,7 @@ const HomePg = () =>
           </div>
         </div>
       </section>
-           
+           <Footer/>
         </div>
     )
 }
