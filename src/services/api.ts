@@ -4,4 +4,4 @@ export const SignupUrl = "/user/register";
 export const LoginUrl = "/user/login";
 export const VerifyOTPUrl = "/user/verifyOtp";
 export const ResendOTPUrl = "/user/resendOtp";
-// export const GithubLoginAPI = http://localhost:5656/api/user/github
+export const GetUserData = "/user/getData"

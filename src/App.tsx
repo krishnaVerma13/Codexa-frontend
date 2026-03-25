@@ -7,6 +7,7 @@ import OnBording from "./pages/OnBording"
 
 import UserDashboard from "./pages/dashboard/UserDashboard"
 import UserProfile from "./pages/dashboard/UserProfile"
+import AuthCallback from "./pages/authPages/AuthCallback"
 
 function App() {
  
@@ -23,6 +24,8 @@ function App() {
       <Route path="/verify-otp" element={<VerifyOTP/>} /> 
       <Route path="/onboarding" element={<OnBording/>} /> 
       <Route path="/dashboard" element={<UserDashboard/>} /> 
+      <Route path="/auth/callback" element={<AuthCallback/>} /> 
+
      
     </Routes>
    

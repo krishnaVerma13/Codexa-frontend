@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom"
 import { LuGithub } from "react-icons/lu";
 import { BiLogIn } from "react-icons/bi";
 import { MdOutlineAssignmentInd } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 export default function OnBording() {
 
     const navigator = useNavigate()
