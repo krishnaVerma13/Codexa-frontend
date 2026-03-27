@@ -5,22 +5,24 @@ import { RxCross1 } from "react-icons/rx";
 import { FaRegUser } from "react-icons/fa";
 import { LuGithub } from "react-icons/lu";
 import { IoMailOutline } from "react-icons/io5";
-import { IoIosEye } from "react-icons/io";
-import { IoIosEyeOff } from "react-icons/io";
+// import { IoIosEye } from "react-icons/io";
+// import { IoIosEyeOff } from "react-icons/io";
 import Navbar from "../../components/Navbar";
 import { Footer } from "../../components/Footer";
+import { useUser } from "../../routes/queryHooks/User.Query";
 
 export default function UserProfile(){
 
-    const [showPassword, setShowPassword] = useState(false);
+  const {data , isLoading , isError } = useUser();
+
+    // const [showPassword, setShowPassword] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: 'Krishna Patel',
-    username: 'krishna_dev',
-    email: 'krishna@example.com',
-    bio: 'Full-stack developer passionate about clean code and performance optimization. Building the future with TypeScript and React.',
-    website: 'https://krishna.dev',
-    location: 'San Francisco, CA',
+    name: data?.name,
+    username: data?.githubUsername,
+    email: data?.email,
+    website: '',
+    location: '',
   });
 
   const handleSave = () => {
@@ -141,7 +143,7 @@ export default function UserProfile(){
 
               <div className="grid grid-cols-2 gap-6">
                 {/* Website */}
-                <div>
+                {/* <div>
                   <label className="block font-mono text-xs text-[#454C5E] mb-2">Website</label>
                   <input
                     type="url"
@@ -149,11 +151,11 @@ export default function UserProfile(){
                     onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     disabled={!isEditing}
                     className="w-full px-4 py-3 bg-[#06070A] border border-[#1E2330] rounded-sm font-mono text-sm text-[#F0F2F5] focus:outline-none focus:border-[#B8F5D4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  />
-                </div>
+                  />  
+                </div> */}
 
                 {/* Location */}
-                <div>
+                {/* <div>
                   <label className="block font-mono text-xs text-[#454C5E] mb-2">Location</label>
                   <input
                     type="text"
@@ -162,7 +164,8 @@ export default function UserProfile(){
                     disabled={!isEditing}
                     className="w-full px-4 py-3 bg-[#06070A] border border-[#1E2330] rounded-sm font-mono text-sm text-[#F0F2F5] focus:outline-none focus:border-[#B8F5D4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   />
-                </div>
+                </div> */}
+
               </div>
             </div>
           </div>
@@ -172,44 +175,47 @@ export default function UserProfile(){
             <div className="font-mono text-xs uppercase text-[#454C5E] mb-6">Connected Accounts</div>
             <div className="space-y-4">
               {/* GitHub */}
-              <div className="flex items-center justify-between p-4 bg-[#06070A] border border-[#1E2330] rounded-lg">
+              <div className={`flex items-center justify-between p-4 bg-[#06070A] border border-[#1E2330] 
+                              rounded-lg ${data?.authType == "github" ? 'opacity-100' :'opacity-50'}`}>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-[#0D1117] border border-[#1E2330] flex items-center justify-center">
                     <LuGithub size={20} className="text-[#B8F5D4]" />
                   </div>
                   <div>
                     <div className="font-mono text-sm text-[#F0F2F5] mb-1">GitHub</div>
-                    <div className="font-mono text-xs text-[#454C5E]">Connected as @krishna_dev</div>
+                    <div className="font-mono text-xs text-[#454C5E]">
+                      {data?.authType == "github" ? `Connected as ${data?.githubUsername}` : 'Not connected' }</div>
                   </div>
                 </div>
                 <button className="px-5 py-2 border border-[#FFD4B8] text-[#FFD4B8] font-mono text-sm rounded-sm hover:bg-[#FFD4B8]/10 transition-colors">
-                  Disconnect
+                  {data?.authType == "github" ? 'Disconnect' :'Connect'}
                 </button>
               </div>
 
               {/* Email (Placeholder for other services) */}
-              <div className="flex items-center justify-between p-4 bg-[#06070A] border border-[#1E2330] rounded-lg opacity-50">
+              <div className={`flex items-center justify-between p-4 bg-[#06070A] border border-[#1E2330] rounded-lg ${data?.password ? 'opacity-100' : 'opacity-50'} `}>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-[#0D1117] border border-[#1E2330] flex items-center justify-center">
                     <IoMailOutline size={20} className="text-[#454C5E]" />
                   </div>
                   <div>
                     <div className="font-mono text-sm text-[#F0F2F5] mb-1">Google</div>
-                    <div className="font-mono text-xs text-[#454C5E]">Not connected</div>
+                    <div className="font-mono text-xs text-[#454C5E]"> {data?.password ? `Connected as ${data?.email}` : 'Not connected'}</div>
                   </div>
                 </div>
                 <button className="px-5 py-2 border border-[#B8F5D4] text-[#B8F5D4] font-mono text-sm rounded-sm hover:bg-[#B8F5D4]/10 transition-colors">
-                  Connect
+                  {data?.password ? 'Disconnect' : 'Connect'}
                 </button>
               </div>
             </div>
           </div>
 
+          <div>
           {/* Security */}
-          <div className="mb-8 bg-[#0D1117] border border-[#1E2330] rounded-xl p-8">
+          {/* <div className="mb-8 bg-[#0D1117] border border-[#1E2330] rounded-xl p-8">
             <div className="font-mono text-xs uppercase text-[#454C5E] mb-6">Security</div>
             <div className="space-y-6">
-              {/* Password */}
+              Password
               <div>
                 <label className="block font-mono text-xs text-[#454C5E] mb-2">Change Password</label>
                 <div className="relative">
@@ -227,7 +233,7 @@ export default function UserProfile(){
                 </div>
               </div>
 
-              {/* Two-Factor Authentication */}
+              Two-Factor Authentication
               <div className="flex items-center justify-between p-4 bg-[#06070A] border border-[#1E2330] rounded-lg">
                 <div>
                   <div className="font-mono text-sm text-[#F0F2F5] mb-1">Two-Factor Authentication</div>
@@ -238,6 +244,7 @@ export default function UserProfile(){
                 </button>
               </div>
             </div>
+          </div> */}
           </div>
 
           {/* Danger Zone */}

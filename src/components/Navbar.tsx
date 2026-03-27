@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useUser } from "../routes/queryHooks/User.Query";
 
 interface NavbarProps {
   variant?: 'landing' | 'app';
@@ -6,6 +7,8 @@ interface NavbarProps {
 
 
 export default function Navbar({ variant = 'landing' }: NavbarProps){
+
+  const {data} = useUser();
     return (
        <nav className="fixed top-0 left-0 right-0 z-50 bg-[#06070A]/80 backdrop-blur-md border-b border-[#1E2330]">
       <div className="max-w-350 mx-auto px-12 h-20 flex items-center justify-between">
@@ -35,12 +38,23 @@ export default function Navbar({ variant = 'landing' }: NavbarProps){
             </div>
             
             {/* CTA Button */}
+            {data?._id ?
+            <div>
+              <div >
+              <Link to="/dashboard"
+              className="w-10 h-10 bg-linear-to-br from-[#B8F5D4] to-[#D4BCFF] rounded-full flex justify-center items-center text-3xl font-mono text-black hover:text-gray-500 duration-300 hover:cursor-pointer">
+                {data?.name?.split("")[0]}
+                </Link>
+              </div>
+            </div>
+            :
             <Link 
               to="/onboarding"
               className="px-6 py-2.5 font-mono text-sm border border-[#B8F5D4] text-[#B8F5D4] rounded-sm hover:bg-[#B8F5D4]/10 transition-colors"
             >
               Sign In
             </Link>
+            }
           </>
         )}
       </div>

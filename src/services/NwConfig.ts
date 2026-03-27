@@ -78,14 +78,20 @@ export const ResendOTPApi = async (data : object) =>{
 
 export const GetCurrentUser = async () =>{
     try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+        
         const token = getToken();
+        // console.log("token : ",token);
+        
          let url = API_BASE_URL + GetUserData
-         const response = await axios.post(url , {
+         const response = await axios.get(url , {
             headers :{
                 Authorization: `Bearer ${token}`,
             }
          });
-            return response.data;         
+            // console.log("responce : ",response);
+            
+            return response.data.data;         
     } catch (error) {
         if(axios.isAxiosError(error)){
             console.error("Verify OTP API error:", error.response?.data || error.message);
