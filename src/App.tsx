@@ -8,6 +8,8 @@ import OnBording from "./pages/OnBording"
 import UserDashboard from "./pages/dashboard/UserDashboard"
 import UserProfile from "./pages/dashboard/UserProfile"
 import AuthCallback from "./pages/authPages/AuthCallback"
+import Logout from "./components/function/Logout"
+import CodeEditor from "./pages/dashboard/CodeEditor"
 
 function App() {
  
@@ -23,8 +25,11 @@ function App() {
       <Route path="/login" element={<Login/>} /> 
       <Route path="/verify-otp" element={<VerifyOTP/>} /> 
       <Route path="/onboarding" element={<OnBording/>} /> 
-      <Route path="/dashboard" element={<UserDashboard/>} /> 
       <Route path="/auth/callback" element={<AuthCallback/>} /> 
+      <Route path="/logout" element={<Logout/>} /> 
+      <Route path="/dashboard" element={<UserDashboard/>} /> 
+      <Route path="/codeEditor" element={<CodeEditor/>} /> 
+      
 
      
     </Routes>

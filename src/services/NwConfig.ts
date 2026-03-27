@@ -7,7 +7,7 @@ const getToken = ()=>{
     if (token) {
         return token;
     }else{
-        return alert("token not found") ;
+        return ;
         
     }
         
@@ -82,16 +82,18 @@ export const GetCurrentUser = async () =>{
         
         const token = getToken();
         // console.log("token : ",token);
-        
-         let url = API_BASE_URL + GetUserData
-         const response = await axios.get(url , {
-            headers :{
-                Authorization: `Bearer ${token}`,
-            }
-         });
+        if(token){
+            let url = API_BASE_URL + GetUserData
+            const response = await axios.get(url , {
+                headers :{
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             // console.log("responce : ",response);
             
             return response.data.data;         
+        }
+        return console.error("token not found.......");
     } catch (error) {
         if(axios.isAxiosError(error)){
             console.error("Verify OTP API error:", error.response?.data || error.message);

@@ -107,6 +107,7 @@ export default function UserProfile(){
                 <input
                   type="text"
                   value={formData.name}
+                  placeholder="panding.."
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   disabled={!isEditing}
                   className="w-full px-4 py-3 bg-[#06070A] border border-[#1E2330] rounded-sm font-mono text-sm text-[#F0F2F5] focus:outline-none focus:border-[#B8F5D4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -121,6 +122,7 @@ export default function UserProfile(){
                   <input
                     type="text"
                     value={formData.username}
+                    placeholder="panding.."
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                     disabled={!isEditing}
                     className="flex-1 px-4 py-3 bg-[#06070A] border border-[#1E2330] rounded-sm font-mono text-sm text-[#F0F2F5] focus:outline-none focus:border-[#B8F5D4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"

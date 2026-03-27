@@ -4,8 +4,8 @@ import { LuFolderGit2 } from "react-icons/lu";
 import { IoCodeSlash } from "react-icons/io5";
 import { HiTrendingUp } from "react-icons/hi";
 import { FaRegLightbulb } from "react-icons/fa";
-import { IoSettings } from "react-icons/io5";
-import { LuGithub } from "react-icons/lu";
+import { MdLogout } from "react-icons/md";
+// import { LuGithub } from "react-icons/lu";
 import { CiBellOn } from "react-icons/ci";
 import { useUser } from "../../routes/queryHooks/User.Query";
 import { useEffect } from "react";
@@ -13,15 +13,15 @@ import { useEffect } from "react";
 export default function UserDashboard() {
     const navigator = useNavigate();
 
-    const {data , isLoading , isError} =  useUser()
+    const {data , isLoading } =  useUser()
 
     const navItems = [
         { icon: FaHome, label: 'Dashboard', path: '/dashboard', active: true },
         { icon: LuFolderGit2, label: 'My Repos', path: '/repos' },
-        { icon: IoCodeSlash, label: 'Code Editor', path: '/editor' },
+        { icon: IoCodeSlash, label: 'Code Editor', path: '/codeEditor' },
         { icon: HiTrendingUp, label: 'Timeline', path: '/timeline' },
         { icon: FaRegLightbulb, label: 'Recommendations', path: '/recommendations' },
-        { icon: IoSettings, label: 'Settings', path: '/settings' },
+        { icon: MdLogout , label: 'Logout', path: '/logout' },
     ];
     useEffect(()=>{
         // console.log("userData", data);
