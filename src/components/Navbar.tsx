@@ -17,9 +17,7 @@ export default function Navbar({ variant = 'landing' }: NavbarProps){
           <span className="font-display text-2xl tracking-wider text-[#F0F2F5]">
             CODEXA
           </span>
-          <span className="px-2 py-0.5 text-[10px] font-mono border border-[#B8F5D4] text-[#B8F5D4] rounded">
-            Beta
-          </span>
+          
         </Link>
         
         {variant === 'landing' && (

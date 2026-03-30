@@ -10,6 +10,7 @@ import UserProfile from "./pages/dashboard/UserProfile"
 import AuthCallback from "./pages/authPages/AuthCallback"
 import Logout from "./components/function/Logout"
 import CodeEditor from "./pages/dashboard/CodeEditor"
+import VSCodeEditor from "./components/codeEditor/VSCodeEditor"
 
 function App() {
  
@@ -30,6 +31,7 @@ function App() {
       <Route path="/dashboard" element={<UserDashboard/>} /> 
       <Route path="/codeEditor" element={<CodeEditor/>} /> 
       
+      <Route path="/vs" element={<VSCodeEditor/>} /> 
 
      
     </Routes>
