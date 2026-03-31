@@ -9,6 +9,7 @@ export const useUser = ()=>{
         queryKey:['userData'],
         queryFn: GetCurrentUser,
         staleTime:  1000 * 60 * 5, // 5 minutes cache
+        enabled: !!token, // Only run if token exists
     });
 
 }

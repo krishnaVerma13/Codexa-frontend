@@ -3,27 +3,13 @@ import { Link } from 'react-router';
 import { ScorePill } from '../../components/ScorePill';
 import { LuGithub } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
-import { FaChevronDown } from "react-icons/fa6";
+// import { FaChevronDown } from "react-icons/fa6";
+import ThemeSelector from '../../components/codeEditor/ThemeSelector';
+import LanguageSelector from '../../components/codeEditor/LanguageSelector';
 
 export default function CodeEditor() {
   const [activeTab, setActiveTab] = useState<'write' | 'import'>('write');
-  const [code, setCode] = useState(`
-    function calculateScore(repo) {
-    const metrics = analyzeCode(repo);
-  
-    return {
-      cleanCode: metrics.complexity < 10 ? 85 : 60,
-      security: checkVulnerabilities(metrics),
-      performance: metrics.runtime,
-      testing: metrics.coverage,
-      maintainability: metrics.documentation
-    };
-    }
-
-    // AI-powered analysis
-    const result = await geminiAnalyze(code);
-    console.log(result);
-  `);
+  // const [code, setCode] = useState(``);
 
   const [analyzed, setAnalyzed] = useState(false);
 
@@ -45,15 +31,15 @@ export default function CodeEditor() {
           ANALYZE
         </button>
       </div>
-      
+
 
       {/* Tabs */}
       <div className="border-b border-[#1E2330] flex px-12">
         <button
           onClick={() => setActiveTab('write')}
           className={`px-6 py-4 font-mono text-sm border-b-2 transition-colors ${activeTab === 'write'
-              ? 'border-[#B8F5D4] text-[#B8F5D4]'
-              : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
+            ? 'border-[#B8F5D4] text-[#B8F5D4]'
+            : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
             }`}
         >
           Write Code
@@ -61,12 +47,13 @@ export default function CodeEditor() {
         <button
           onClick={() => setActiveTab('import')}
           className={`px-6 py-4 font-mono text-sm border-b-2 transition-colors ${activeTab === 'import'
-              ? 'border-[#B8F5D4] text-[#B8F5D4]'
-              : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
+            ? 'border-[#B8F5D4] text-[#B8F5D4]'
+            : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
             }`}
         >
           Import from GitHub
         </button>
+
       </div>
 
       {/* Main Content */}
@@ -83,35 +70,16 @@ export default function CodeEditor() {
                   className="bg-transparent font-mono text-sm text-[#F0F2F5] outline-none"
                   defaultValue="analyzer.js"
                 />
-                <button className="px-3 py-1.5 bg-[#0D1117] border border-[#1E2330] rounded font-mono text-xs text-[#F0F2F5] flex items-center gap-2 hover:border-[#B8F5D4] transition-colors">
-                  JavaScript <FaChevronDown size={14} />
-                </button>
+                <div className='space-x-2.5 flex'>
+                  <ThemeSelector />
+                  <LanguageSelector />
+                </div>
               </div>
 
               {/* Editor Area */}
               <div className="flex-1 bg-[#06070A] flex">
-                {/* Line Numbers */}
-                <div className="w-12 bg-[#0D1117] border-r border-[#1E2330] py-4">
-                  {code.split('\n').map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-6 px-3 font-mono text-xs text-[#454C5E] text-right"
-                    >
-                      {i + 1}
-                    </div>
-                  ))}
-                </div>
 
-                {/* Code Area */}
-                <div className="flex-1 py-4 px-6">
-                  <pre className="font-mono text-sm leading-6">
-                    {code.split('\n').map((line, i) => (
-                      <div key={i} className="h-6">
-                        {highlightSyntax(line)}
-                      </div>
-                    ))}
-                  </pre>
-                </div>
+
               </div>
 
             </div>
@@ -268,47 +236,4 @@ export default function CodeEditor() {
   );
 }
 
-function highlightSyntax(line: string) {
-  // Simple syntax highlighting
-  const keywords = ['function', 'const', 'return', 'if', 'await', 'async'];
-  let highlighted = line;
 
-  // Keywords
-  keywords.forEach(keyword => {
-    highlighted = highlighted.replace(
-      new RegExp(`\\b${keyword}\\b`, 'g'),
-      `<span style="color: #D4BCFF">${keyword}</span>`
-    );
-  });
-
-  // Strings
-  highlighted = highlighted.replace(
-    /(["'])(.*?)\1/g,
-    '<span style="color: #B8F5D4">$1$2$1</span>'
-  );
-
-  // Functions
-  highlighted = highlighted.replace(
-    /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g,
-    '<span style="color: #B8E8FF">$1</span>('
-  );
-
-  // Numbers
-  highlighted = highlighted.replace(
-    /\b(\d+)\b/g,
-    '<span style="color: #FFD4B8">$1</span>'
-  );
-
-  // Comments
-  highlighted = highlighted.replace(
-    /(\/\/.*)/g,
-    '<span style="color: #454C5E; font-style: italic">$1</span>'
-  );
-
-  return (
-    <span
-      dangerouslySetInnerHTML={{ __html: highlighted || '&nbsp;' }}
-      className="text-[#F0F2F5]"
-    />
-  );
-}
