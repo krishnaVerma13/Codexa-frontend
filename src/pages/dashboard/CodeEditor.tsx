@@ -3,16 +3,36 @@ import { Link } from 'react-router';
 import { ScorePill } from '../../components/ScorePill';
 import { LuGithub } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
-// import { FaChevronDown } from "react-icons/fa6";
+import { RiFontSizeAi } from "react-icons/ri";
+
+
+
 import ThemeSelector from '../../components/codeEditor/ThemeSelector';
 import LanguageSelector from '../../components/codeEditor/LanguageSelector';
+import EditorPanel from '../../components/codeEditor/EditorPanel';
+
+import { useAppDispatch, useAppSelector } from "../../store/Store";
+import { selectFontSize, setFontSize } from '../../slices/editorSlice';
+
+
 
 export default function CodeEditor() {
+  
+  const dispatch = useAppDispatch();
+  const fontSize = useAppSelector(selectFontSize);
   const [activeTab, setActiveTab] = useState<'write' | 'import'>('write');
   // const [code, setCode] = useState(``);
 
   const [analyzed, setAnalyzed] = useState(false);
 
+  const handleFontSizeChange = (newSize: number) => {
+    const size = Math.min(Math.max(newSize, 12), 24);
+    dispatch(setFontSize(size));
+    localStorage.setItem("editor-font-size", size.toString());
+  }
+
+ 
+  
   return (
     <div className="min-h-screen bg-[#06070A] flex flex-col">
       {/* Top Bar */}
@@ -71,15 +91,37 @@ export default function CodeEditor() {
                   defaultValue="analyzer.js"
                 />
                 <div className='space-x-2.5 flex'>
+                  
+                  {/* Font Size button with slider */}
+                  <div className="flex items-center gap-3 px-3 py-2 bg-[#1e1e2e] rounded-lg ring-1 ring-white/5">
+                    <RiFontSizeAi className="size-4 text-gray-400" />
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="range"
+                        min="12"
+                        max="24"
+                        value={fontSize}
+                        onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
+                        className="w-20 h-1 bg-gray-600 rounded-lg cursor-pointer"
+                      />
+                      <span className="text-sm font-medium text-gray-400 min-w-8 text-center">
+                        {fontSize}
+                      </span>
+                    </div>
+                  </div>
+
                   <ThemeSelector />
                   <LanguageSelector />
+
+                   
+
                 </div>
               </div>
 
               {/* Editor Area */}
-              <div className="flex-1 bg-[#06070A] flex">
+              <div className="w-full flex-1  bg-[#06070A] flex">
 
-
+                <EditorPanel />
               </div>
 
             </div>

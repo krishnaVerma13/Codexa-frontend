@@ -87,6 +87,8 @@ const editorSlice = createSlice({
       state.fontSize = action.payload;
     },
 
+   
+
     // These three are called from your run-code logic
     setOutput(state, action: PayloadAction<string>) {
       state.output = action.payload;

@@ -10,6 +10,7 @@ import { CiBellOn } from "react-icons/ci";
 import { useUser } from "../../routes/queryHooks/User.Query";
 import { useEffect } from "react";
 
+
 export default function UserDashboard() {
     const navigator = useNavigate();
 
@@ -91,7 +92,9 @@ export default function UserDashboard() {
                 
                     </div>
                 </div>
+            {/* <EditorPanel/> */}
             </main>
+
         </div>
     )
 }

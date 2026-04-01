@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/Store";
-import { selectLanguage , setLanguage } from "../../slices/editorSlice";
+import { selectLanguage, setLanguage } from "../../slices/editorSlice";
 import { LANGUAGE_CONFIG } from "../constants/Monaco.constants";
 import { AnimatePresence, motion } from "framer-motion"
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { IoReload } from "react-icons/io5";
 
+import { editor } from "monaco-editor";
 
 
 
@@ -17,22 +19,54 @@ export default function LanguageSelector() {
     const [isOpen, setIsOpen] = useState(false);
     const currentLanguage = LANGUAGE_CONFIG[language];
 
-    const handleLanguageChange = (langId: string)=>{
-        dispatch(setLanguage(langId)); // localStorage write is inside the slice
+    const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+    const getCode = () => editorRef.current?.getValue() || "";
+
+
+
+    const handleLanguageChange = (langId: string) => {
+        const currentCode = getCode();
+        if (currentCode) {
+            localStorage.setItem(`editor-code-${language}`, currentCode);
+        }
+
+        dispatch(setLanguage(langId));
+
+        setTimeout(() => {
+            const newCode = localStorage.getItem(`editor-code-${langId}`) || LANGUAGE_CONFIG[langId].defaultCode;
+
+            console.log("editorRef :", editorRef.current);
+
+            const model = editorRef.current?.getModel();
+            console.log("model:", model);
+
+            if (model) {
+                editor.setModelLanguage(model, langId); // ← switches syntax highlighting
+                editorRef.current?.setValue(newCode);   // ← shows new code
+            }
+        }, 0)
+
         setIsOpen(false);
     }
 
-        useEffect(() => {
-            const handleClickOutside = (event: MouseEvent) => {
-                if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                    setIsOpen(false);
-                }
-            };
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => {
-                document.removeEventListener("mousedown", handleClickOutside);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
             }
-        }, [])
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+    }, [])
+
+
+    const handleRefresh = () => {
+        const defaultCode = LANGUAGE_CONFIG[language].defaultCode;
+        editorRef.current?.setValue(defaultCode);
+        localStorage.removeItem(`editor-code-${language}`);
+    };
 
     return (<>
         <div className="relative" ref={dropdownRef}>
@@ -75,7 +109,7 @@ export default function LanguageSelector() {
 
                         <div className="max-h-70 overflow-y-auto overflow-x-hidden">
                             {Object.values(LANGUAGE_CONFIG).map((lang, index) => {
-                                
+
 
                                 return (
                                     <motion.div
@@ -90,7 +124,7 @@ export default function LanguageSelector() {
                                              ${language === lang.id ? "bg-blue-500/10 text-blue-400" : "text-gray-300"}
                                              `}
                                             onClick={() => handleLanguageChange(lang.id)}
-                                            
+
                                         >
                                             {/* decorator */}
                                             <div
@@ -98,7 +132,7 @@ export default function LanguageSelector() {
                                                  opacity-0 group-hover:opacity-100 transition-opacity"
                                             />
 
-                                                <div
+                                            <div
                                                 className={`
                                                 relative size-8 rounded-lg p-1.5 group-hover:scale-110 transition-transform
                                                     ${language === lang.id ? "bg-blue-500/10" : "bg-gray-800/50"}
@@ -121,7 +155,7 @@ export default function LanguageSelector() {
                                                 {lang.label}
                                             </span>
 
-                                           
+
                                         </button>
                                     </motion.div>
                                 );
@@ -131,6 +165,18 @@ export default function LanguageSelector() {
                 )}
             </AnimatePresence>
 
+        </div>
+        <div>
+            {/* Reload button */}
+            <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleRefresh}
+                className="p-2 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors"
+                aria-label="Reset to default code"
+            >
+                <IoReload className="size-4 text-gray-400" />
+            </motion.button>
         </div>
     </>
     )

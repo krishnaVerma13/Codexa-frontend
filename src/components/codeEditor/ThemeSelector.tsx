@@ -56,14 +56,14 @@ export default function ThemeSelector() {
                 {/* hover state bg decorator */}
                 <div className="absolute inset-0 bg-linear-to-r from-blue-500/5 to-purple-500/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
                 <IoIosColorPalette className="w-4 h-4 text-gray-400 group-hover:text-gray-300 transition-colors" />
-                <span className="text-gray-300 min-w-20 text-left group-hover:text-white transition-colors">
+                <span className="text-gray-300 min-w-20 text-left group-hover:text-white transition-colors text-nowrap">
                     {currentTheme?.label}
                 </span>
 
-                <div
+                {/* <div
                     className="relative w-4 h-4 rounded-full border border-gray-600 group-hover:border-gray-500 transition-colors"
                     style={{ background: currentTheme?.color }}
-                />
+                /> */}
             </motion.button>
 
             <AnimatePresence>
@@ -77,7 +77,7 @@ export default function ThemeSelector() {
                      backdrop-blur-xl rounded-xl border border-[#313244] shadow-2xl py-2 z-50"
                     >
                         <div className="px-2 pb-2 mb-2 border-b border-gray-800/50">
-                            <p className="text-xs font-medium text-gray-400 px-2">Select Theme</p>
+                            <p className="text-xs font-medium text-gray-400 px-2 text-nowrap">Select Theme</p>
                         </div>
 
                         {THEMES.map((t, index) => (
@@ -109,16 +109,16 @@ export default function ThemeSelector() {
                                     {THEME_ICONS[t.id] || <LuCircleOff className="w-4 h-4" />}
                                 </div>
                                 {/* label */}
-                                <span className="flex-1 text-left group-hover:text-white transition-colors">
+                                <span className="flex-1 text-left group-hover:text-white transition-colors text-no-wrap">
                                     {t.label}
                                 </span>
 
                                 {/* color indicator */}
-                                <div
+                                {/* <div
                                     className="relative size-4 rounded-full border border-gray-600 
                                     group-hover:border-gray-500 transition-colors"
                                     style={{ background: t.color }}
-                                />
+                                /> */}
 
                                 {/* active theme border */}
                                 {theme === t.id && (
