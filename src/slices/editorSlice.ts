@@ -4,6 +4,7 @@
 // The Monaco editor INSTANCE itself is NOT stored here (explained below).
 
 import { createSlice,type PayloadAction } from "@reduxjs/toolkit";
+import { LANGUAGE_CONFIG } from "../components/constants/Monaco.constants";
 
 // ─── Step 1: Define the shape of this slice's state ───────────────────────────
 // Every field the editor cares about lives here.
@@ -15,6 +16,7 @@ interface EditorState {
   language: string;
   theme: string;
   fontSize: number;
+  currentCode : string;
   output: string;
   isRunning: boolean;
   error: string | null;
@@ -33,6 +35,7 @@ const getInitialState = (): EditorState => {
       language: "javascript",
       theme: "vs-dark",
       fontSize: 16,
+      currentCode: "",
       output: "",
       isRunning: false,
       error: null,
@@ -45,6 +48,7 @@ const getInitialState = (): EditorState => {
     language: localStorage.getItem("editor-language") || "javascript",
     theme: localStorage.getItem("editor-theme") || "vs-dark",
     fontSize: Number(localStorage.getItem("editor-font-size")) || 16,
+    currentCode : LANGUAGE_CONFIG[localStorage.getItem("editor-language") || "javascript"]?.defaultCode || localStorage.getItem(`editor-code-${localStorage.getItem("editor-language") || "javascript"}`) || "",
     output: "",        // output is session-only, don't persist
     isRunning: false,
     error: null,
@@ -87,7 +91,9 @@ const editorSlice = createSlice({
       state.fontSize = action.payload;
     },
 
-   
+    setCurrentCode(state, action: PayloadAction<string>) {
+      state.currentCode = action.payload;
+    },
 
     // These three are called from your run-code logic
     setOutput(state, action: PayloadAction<string>) {
@@ -116,6 +122,7 @@ export const {
   setLanguage,
   setTheme,
   setFontSize,
+  setCurrentCode,
   setOutput,
   setRunning,
   setError,
@@ -130,6 +137,7 @@ export const {
 export const selectLanguage        = (state: { editor: EditorState }) => state.editor.language;
 export const selectTheme           = (state: { editor: EditorState }) => state.editor.theme;
 export const selectFontSize        = (state: { editor: EditorState }) => state.editor.fontSize;
+export const selectCurrentCode     = (state: { editor: EditorState }) => state.editor.currentCode;
 export const selectOutput          = (state: { editor: EditorState }) => state.editor.output;
 export const selectIsRunning       = (state: { editor: EditorState }) => state.editor.isRunning;
 export const selectError           = (state: { editor: EditorState }) => state.editor.error;

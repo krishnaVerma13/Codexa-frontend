@@ -3,36 +3,14 @@ import { Link } from 'react-router';
 import { ScorePill } from '../../components/ScorePill';
 import { LuGithub } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
-import { RiFontSizeAi } from "react-icons/ri";
 
-
-
-import ThemeSelector from '../../components/codeEditor/ThemeSelector';
-import LanguageSelector from '../../components/codeEditor/LanguageSelector';
 import EditorPanel from '../../components/codeEditor/EditorPanel';
 
-import { useAppDispatch, useAppSelector } from "../../store/Store";
-import { selectFontSize, setFontSize } from '../../slices/editorSlice';
-
-
-
 export default function CodeEditor() {
-  
-  const dispatch = useAppDispatch();
-  const fontSize = useAppSelector(selectFontSize);
-  const [activeTab, setActiveTab] = useState<'write' | 'import'>('write');
-  // const [code, setCode] = useState(``);
 
+  const [activeTab, setActiveTab] = useState<'write' | 'import'>('write');
   const [analyzed, setAnalyzed] = useState(false);
 
-  const handleFontSizeChange = (newSize: number) => {
-    const size = Math.min(Math.max(newSize, 12), 24);
-    dispatch(setFontSize(size));
-    localStorage.setItem("editor-font-size", size.toString());
-  }
-
- 
-  
   return (
     <div className="min-h-screen bg-[#06070A] flex flex-col">
       {/* Top Bar */}
@@ -44,92 +22,53 @@ export default function CodeEditor() {
           <span className="font-mono text-sm text-[#454C5E]">Code Analyzer</span>
         </div>
 
-        <button
-          onClick={() => setAnalyzed(true)}
-          className="px-8 py-1 bg-[#B8F5D4] text-[#06070A] font-display text-base rounded-sm hover:bg-[#A5E5C1] transition-colors"
-        >
-          ANALYZE
-        </button>
+        <div className="border-b border-[#1E2330] flex px-12">
+          <button
+            onClick={() => setActiveTab('write')}
+            className={`px-6 py-3 font-mono text-sm border-b-2 transition-colors ${activeTab === 'write'
+              ? 'border-[#B8F5D4] text-[#B8F5D4]'
+              : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
+              }`}
+          >
+            Write Code
+          </button>
+          <button
+            onClick={() => setActiveTab('import')}
+            className={`px-6 py-3 font-mono text-sm border-b-2 transition-colors ${activeTab === 'import'
+              ? 'border-[#B8F5D4] text-[#B8F5D4]'
+              : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
+              }`}
+          >
+            Import from GitHub
+          </button>
+
+        </div>
       </div>
 
 
       {/* Tabs */}
-      <div className="border-b border-[#1E2330] flex px-12">
-        <button
-          onClick={() => setActiveTab('write')}
-          className={`px-6 py-4 font-mono text-sm border-b-2 transition-colors ${activeTab === 'write'
-            ? 'border-[#B8F5D4] text-[#B8F5D4]'
-            : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
-            }`}
-        >
-          Write Code
-        </button>
-        <button
-          onClick={() => setActiveTab('import')}
-          className={`px-6 py-4 font-mono text-sm border-b-2 transition-colors ${activeTab === 'import'
-            ? 'border-[#B8F5D4] text-[#B8F5D4]'
-            : 'border-transparent text-[#454C5E] hover:text-[#F0F2F5]'
-            }`}
-        >
-          Import from GitHub
-        </button>
-
-      </div>
-
       {/* Main Content */}
       <div className="flex-1 flex">
         {activeTab === 'write' ? (
           <>
-            {/* Code Editor Panel */}
-            <div className="flex-1 flex flex-col border-r border-[#1E2330]">
-              {/* Editor Header */}
-              <div className="h-14 border-b border-[#1E2330] flex items-center justify-between px-6">
-                <input
-                  type="text"
-                  placeholder="filename.js"
-                  className="bg-transparent font-mono text-sm text-[#F0F2F5] outline-none"
-                  defaultValue="analyzer.js"
-                />
-                <div className='space-x-2.5 flex'>
-                  
-                  {/* Font Size button with slider */}
-                  <div className="flex items-center gap-3 px-3 py-2 bg-[#1e1e2e] rounded-lg ring-1 ring-white/5">
-                    <RiFontSizeAi className="size-4 text-gray-400" />
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="range"
-                        min="12"
-                        max="24"
-                        value={fontSize}
-                        onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
-                        className="w-20 h-1 bg-gray-600 rounded-lg cursor-pointer"
-                      />
-                      <span className="text-sm font-medium text-gray-400 min-w-8 text-center">
-                        {fontSize}
-                      </span>
-                    </div>
-                  </div>
-
-                  <ThemeSelector />
-                  <LanguageSelector />
-
-                   
-
-                </div>
-              </div>
-
-              {/* Editor Area */}
-              <div className="w-full flex-1  bg-[#06070A] flex">
-
-                <EditorPanel />
-              </div>
-
+            {/* Editor Area */}
+            <div className="w-full flex-1  bg-[#06070A] flex">
+              <EditorPanel />
             </div>
 
             {/* Results Panel */}
-            <div className="w-[30%] bg-[#0D1117] overflow-auto">
+            <div className="w-[30%] h-screen bg-[#0D1117] overflow-y-auto scrollbar-hide">
+              <div className='py-3 px-4 flex justify-end  border-b border-amber-50'>
+                <button
+                  onClick={() => setAnalyzed(true)}
+                  className="px-8 py-1 bg-[#B8F5D4] text-[#06070A] font-display text-base rounded-sm hover:bg-[#A5E5C1] transition-colors"
+                >
+                  ANALYZE
+                </button>
+              </div>
               <div className="p-8">
                 {!analyzed ? (
+                  // Code run output 
                   <div className="flex flex-col items-center justify-center h-full text-center pt-32">
                     <div className="w-16 h-16 rounded-full bg-[#1E2330] flex items-center justify-center mb-6">
                       <CiSearch className="text-[#454C5E]" size={24} />
@@ -142,6 +81,7 @@ export default function CodeEditor() {
                     </div>
                   </div>
                 ) : (
+                  // Ai analysis result
                   <>
                     <div className="font-mono text-xs uppercase text-[#454C5E] mb-6">
                       Analysis Results
@@ -226,6 +166,7 @@ export default function CodeEditor() {
             </div>
           </>
         ) : (
+          // Github Import Tob 
           <div className="flex-1 p-12">
             {/* Search Bar */}
             <div className="mb-8">

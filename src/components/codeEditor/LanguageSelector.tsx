@@ -4,7 +4,7 @@ import { selectLanguage, setLanguage } from "../../slices/editorSlice";
 import { LANGUAGE_CONFIG } from "../constants/Monaco.constants";
 import { AnimatePresence, motion } from "framer-motion"
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { IoReload } from "react-icons/io5";
+
 
 import { editor } from "monaco-editor";
 
@@ -29,22 +29,22 @@ export default function LanguageSelector() {
         if (currentCode) {
             localStorage.setItem(`editor-code-${language}`, currentCode);
         }
+        // console.log("current code :", currentCode);
 
         dispatch(setLanguage(langId));
 
-        setTimeout(() => {
-            const newCode = localStorage.getItem(`editor-code-${langId}`) || LANGUAGE_CONFIG[langId].defaultCode;
+        // setTimeout(() => {
+        //     const newCode = localStorage.getItem(`editor-code-${langId}`) || LANGUAGE_CONFIG[langId].defaultCode;
 
-            console.log("editorRef :", editorRef.current);
 
-            const model = editorRef.current?.getModel();
-            console.log("model:", model);
+        //     const model = editorRef.current?.getModel();
+        //     console.log("model:", model);
 
-            if (model) {
-                editor.setModelLanguage(model, langId); // ← switches syntax highlighting
-                editorRef.current?.setValue(newCode);   // ← shows new code
-            }
-        }, 0)
+        //     if (model) {
+        //         editor.setModelLanguage(model, langId); // ← switches syntax highlighting
+        //         editorRef.current?.setValue(newCode);   // ← shows new code
+        //     }
+        // }, 0)
 
         setIsOpen(false);
     }
@@ -62,11 +62,7 @@ export default function LanguageSelector() {
     }, [])
 
 
-    const handleRefresh = () => {
-        const defaultCode = LANGUAGE_CONFIG[language].defaultCode;
-        editorRef.current?.setValue(defaultCode);
-        localStorage.removeItem(`editor-code-${language}`);
-    };
+   
 
     return (<>
         <div className="relative" ref={dropdownRef}>
@@ -167,16 +163,7 @@ export default function LanguageSelector() {
 
         </div>
         <div>
-            {/* Reload button */}
-            <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleRefresh}
-                className="p-2 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors"
-                aria-label="Reset to default code"
-            >
-                <IoReload className="size-4 text-gray-400" />
-            </motion.button>
+           
         </div>
     </>
     )

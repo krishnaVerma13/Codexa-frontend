@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { EmailLogin, EmailSignup } from "../interface/auth.type";
-import { API_BASE_URL, GetUserData, LoginUrl, ResendOTPUrl, SignupUrl, VerifyOTPUrl } from "./api";
+import { API_BASE_URL, CodeRunApiUrl, GetUserData, LoginUrl, ResendOTPUrl, SignupUrl, VerifyOTPUrl } from "./api";
 
 const getToken = ()=>{
     const token = localStorage.getItem('token')
@@ -101,6 +101,24 @@ export const GetCurrentUser = async () =>{
         }
         return { success: false, message: "An unexpected error occurred" };
     }
+}
+
+
+export const RunCodeApi = async(data : object)=>{
+    let url = CodeRunApiUrl;
+     try {
+        const response = await axios.post(url, data);
+            
+            return response;         
+        }
+     catch (error) {
+        if(axios.isAxiosError(error)){
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return{ success: false, message: error.response?.data?.message || "Verify OTP failed" };  
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+
 }
 
 
