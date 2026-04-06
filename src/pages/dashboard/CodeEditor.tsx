@@ -3,13 +3,16 @@ import { Link } from 'react-router';
 import { ScorePill } from '../../components/ScorePill';
 import { LuGithub } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
+import { Resizable } from 're-resizable'
 
 import EditorPanel from '../../components/codeEditor/EditorPanel';
+import OutputPanel from '../../components/codeEditor/OutputPanel';
 
 export default function CodeEditor() {
 
   const [activeTab, setActiveTab] = useState<'write' | 'import'>('write');
   const [analyzed, setAnalyzed] = useState(false);
+  const [editorWidth, setEditorWidth] = useState(70);
 
   return (
     <div className="min-h-screen bg-[#06070A] flex flex-col">
@@ -52,13 +55,29 @@ export default function CodeEditor() {
         {activeTab === 'write' ? (
           <>
             {/* Editor Area */}
-            <div className="w-full flex-1  bg-[#06070A] flex">
+            <Resizable
+              size={{ width: `${editorWidth}%`, height: "100%" }}
+              minWidth="20%"
+              maxWidth="80%"
+              enable={{ right: true }}
+              className="bg-[#0D1117] overflow-hidden"
+              onResizeStop={(_e, _dir, _ref, d) => {
+                const newWidth = editorWidth + (d.width / window.innerWidth) * 100;
+                setEditorWidth(Math.min(80, Math.max(20, newWidth)));
+              }}
+            >
+              {/* <div className="w-full flex-1  bg-[#06070A] flex"> */}
               <EditorPanel />
-            </div>
+              {/* </div> */}
+            </Resizable>
 
             {/* Results Panel */}
-            <div className="w-[30%] h-screen bg-[#0D1117] overflow-y-auto scrollbar-hide">
-              <div className='py-3 px-4 flex justify-end  border-b border-amber-50'>
+
+            <div
+              style={{ width: `${100 - editorWidth}%` }}
+              className="bg-[#0D1117] overflow-y-auto scrollbar-hide h-screen min-w-0"
+            >
+              <div className='py-3  px-4 flex justify-end  border-b border-amber-50'>
                 <button
                   onClick={() => setAnalyzed(true)}
                   className="px-8 py-1 bg-[#B8F5D4] text-[#06070A] font-display text-base rounded-sm hover:bg-[#A5E5C1] transition-colors"
@@ -66,19 +85,13 @@ export default function CodeEditor() {
                   ANALYZE
                 </button>
               </div>
-              <div className="p-8">
+              <div 
+              style={{ maxWidth: "100%" }}
+              className="p-4   w-full">
                 {!analyzed ? (
                   // Code run output 
-                  <div className="flex flex-col items-center justify-center h-full text-center pt-32">
-                    <div className="w-16 h-16 rounded-full bg-[#1E2330] flex items-center justify-center mb-6">
-                      <CiSearch className="text-[#454C5E]" size={24} />
-                    </div>
-                    <div className="font-mono text-sm text-[#454C5E] mb-2">
-                      Click Analyze to get results
-                    </div>
-                    <div className="font-mono text-xs text-[#454C5E]">
-                      AI will evaluate your code across 5 dimensions
-                    </div>
+                  <div className=" h-full overflow-hidden min-w-0 scrollbar-hide">
+                    <OutputPanel />
                   </div>
                 ) : (
                   // Ai analysis result
@@ -164,6 +177,7 @@ export default function CodeEditor() {
                 )}
               </div>
             </div>
+
           </>
         ) : (
           // Github Import Tob 

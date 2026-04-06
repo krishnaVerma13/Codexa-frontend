@@ -1,39 +1,49 @@
-import {motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { HiPlay } from "react-icons/hi2";
 
-import { selectCurrentCode, selectLanguage } from "../../slices/editorSlice";
-import { useAppSelector } from "../../store/Store";
-import { RunCodeApi } from "../../services/NwConfig";
+import { selectCurrentCode, selectLanguage, setRunning , setOutput , selectError , setExecutionResult, selectExecutionResult, setError } from "../../slices/editorSlice";
+import { useAppSelector, useAppDispatch } from "../../store/Store";
+import { RunCodeApi } from "../../services/CodeRunApi";
 import { LANGUAGE_CONFIG } from "../constants/Monaco.constants";
 
 
 export default function RunCodeBtn() {
-        const currentCode = useAppSelector(selectCurrentCode)
-        const language = useAppSelector(selectLanguage)
-        
-       
 
-    const handleRunCode = async() => {
-       if(!currentCode.trim()) {
-        alert("Code editor is empty! Please write some code to run.")
-        return;
-        
-    }
-    console.log("current code :",currentCode);
-    console.log("current language :",language);
-       const payload = {
-           body: JSON.stringify({
-               language: LANGUAGE_CONFIG[language].pistonRuntime.language,
-               version: LANGUAGE_CONFIG[language].pistonRuntime.version,
-               files: [{ content: currentCode }],
-            }),
-            headers: {
-               "Content-Type": "application/json",
-             }
-       }
-       const responce = await RunCodeApi(payload)
-        console.log("run code responce :",responce);
-        
+    const dispatch = useAppDispatch();
+    const currentCode = useAppSelector(selectCurrentCode)
+    const language = useAppSelector(selectLanguage)
+
+
+
+
+    const handleRunCode = async () => {
+        if (!currentCode.trim()) {
+            alert("Code editor is empty! Please write some code to run.")
+            return;
+        }
+
+        // console.log("current code :",currentCode);
+        // console.log("current language :",language);
+        const languageId = LANGUAGE_CONFIG[language]?.judgeO_Id;
+        // console.log("language id :",typeof( languageId));
+
+        if (!languageId) {
+            alert("Selected language is not supported for code execution.");
+            return;
+        }
+        dispatch(setRunning(true))
+        const responce = await RunCodeApi(currentCode, languageId)
+        console.log("run code responce :", responce);
+
+        if(responce.status === "Accepted"){
+            dispatch(setOutput(responce.output || ""))
+            dispatch(setExecutionResult(responce.status))
+        }else{
+            dispatch(setError(responce.error || responce.compileError || "Unknown error occurred"))
+            dispatch(setExecutionResult(responce.status));
+        }
+
+        dispatch(setRunning(false))
     }
 
     return (<>

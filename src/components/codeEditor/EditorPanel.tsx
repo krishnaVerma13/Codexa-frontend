@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../store/Store";
-import { selectCurrentCode, selectFontSize, selectLanguage, selectTheme, setCurrentCode, setFontSize } from "../../slices/editorSlice";
+import { selectCurrentCode, selectFontSize, selectLanguage, selectTheme, setCurrentCode, setExecutionResult, setFontSize } from "../../slices/editorSlice";
 import { LANGUAGE_CONFIG, defineMonacoThemes } from "../constants/Monaco.constants";
 import ThemeSelector from "./ThemeSelector";
 import LanguageSelector from "./LanguageSelector";
@@ -62,7 +62,7 @@ export default function EditorPanel() {
         // 2. load code for the NEW language
         const newCode = localStorage.getItem(`editor-code-${language}`) || LANGUAGE_CONFIG[language].defaultCode;
             dispatch(setCurrentCode(newCode?.trim() )); // update Redux with the new code (optional, but keeps state in sync)
-
+            dispatch(setExecutionResult(undefined))
         // 3. update Monaco model
         const model = editorRef.current.getModel();
         if (model) {

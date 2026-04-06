@@ -5,6 +5,7 @@ type LanguageConfig = Record<
     string,
     {
         id: string;
+        judgeO_Id : number;
         label: string;
         logoPath: string;
         pistonRuntime: { language: string; version: string };
@@ -16,6 +17,7 @@ type LanguageConfig = Record<
 export const LANGUAGE_CONFIG: LanguageConfig = {
     javascript: {
         id: "javascript",
+        judgeO_Id:63,
         label: "JavaScript",
         logoPath: "/javascript.png",
         pistonRuntime: { language: "javascript", version: "18.15.0" }, // api that we're gonna be using
@@ -38,6 +40,7 @@ console.log('Sum of numbers:', sum);`,
     },
     typescript: {
         id: "typescript",
+        judgeO_Id :101,
         label: "TypeScript",
         logoPath: "/typescript.png",
         pistonRuntime: { language: "typescript", version: "5.0.3" },
@@ -75,6 +78,7 @@ console.log('Sum of numbers:', math.sum());`,
     },
     python: {
         id: "python",
+        judgeO_Id :71,
         label: "Python",
         logoPath: "/python.png",
         pistonRuntime: { language: "python", version: "3.10.0" },
@@ -97,6 +101,7 @@ print(f"Sum of numbers: {numbers_sum}")`,
     },
     java: {
         id: "java",
+        judgeO_Id : 91,
         label: "Java",
         logoPath: "/java.png",
         pistonRuntime: { language: "java", version: "15.0.2" },
@@ -139,6 +144,7 @@ print(f"Sum of numbers: {numbers_sum}")`,
     },
     go: {
         id: "go",
+        judgeO_Id : 60,
         label: "Go",
         logoPath: "/go.png",
         pistonRuntime: { language: "go", version: "1.16.2" },
@@ -180,6 +186,7 @@ func main() {
     },
     rust: {
         id: "rust",
+        judgeO_Id :73,
         label: "Rust",
         logoPath: "/rust.png",
         pistonRuntime: { language: "rust", version: "1.68.2" },
@@ -211,83 +218,85 @@ func main() {
     println!("Sum of numbers: {}", sum);
 }`,
     },
-    cpp: {
-        id: "cpp",
-        label: "C++",
-        logoPath: "/cpp.png",
-        pistonRuntime: { language: "cpp", version: "10.2.0" },
-        monacoLanguage: "cpp",
-        defaultCode: `#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <numeric>
+//     cpp: {
+//         id: "cpp",
+//         label: "C++",
+//         logoPath: "/cpp.png",
+//         pistonRuntime: { language: "cpp", version: "10.2.0" },
+//         monacoLanguage: "cpp",
+//         defaultCode: `#include <iostream>
+// #include <vector>
+// #include <algorithm>
+// #include <numeric>
 
-int main() {
-    // Create vector
-    std::vector<int> numbers = {1, 2, 3, 4, 5};
+// int main() {
+//     // Create vector
+//     std::vector<int> numbers = {1, 2, 3, 4, 5};
     
-    // Print original numbers
-    std::cout << "Original numbers: ";
-    for (int n : numbers) std::cout << n << " ";
-    std::cout << std::endl;
+//     // Print original numbers
+//     std::cout << "Original numbers: ";
+//     for (int n : numbers) std::cout << n << " ";
+//     std::cout << std::endl;
     
-    // Calculate squares
-    std::vector<int> squares;
-    std::transform(numbers.begin(), numbers.end(), 
-                  std::back_inserter(squares),
-                  [](int n) { return n * n; });
+//     // Calculate squares
+//     std::vector<int> squares;
+//     std::transform(numbers.begin(), numbers.end(), 
+//                   std::back_inserter(squares),
+//                   [](int n) { return n * n; });
     
-    std::cout << "Squared numbers: ";
-    for (int n : squares) std::cout << n << " ";
-    std::cout << std::endl;
+//     std::cout << "Squared numbers: ";
+//     for (int n : squares) std::cout << n << " ";
+//     std::cout << std::endl;
     
-    // Filter even numbers
-    std::cout << "Even numbers: ";
-    for (int n : numbers) {
-        if (n % 2 == 0) std::cout << n << " ";
-    }
-    std::cout << std::endl;
+//     // Filter even numbers
+//     std::cout << "Even numbers: ";
+//     for (int n : numbers) {
+//         if (n % 2 == 0) std::cout << n << " ";
+//     }
+//     std::cout << std::endl;
     
-    // Calculate sum
-    int sum = std::accumulate(numbers.begin(), numbers.end(), 0);
-    std::cout << "Sum of numbers: " << sum << std::endl;
+//     // Calculate sum
+//     int sum = std::accumulate(numbers.begin(), numbers.end(), 0);
+//     std::cout << "Sum of numbers: " << sum << std::endl;
     
-    return 0;
-}`,
-    },
-    csharp: {
-        id: "csharp",
-        label: "C#",
-        logoPath: "/csharp.png",
-        pistonRuntime: { language: "csharp", version: "6.12.0" },
-        monacoLanguage: "csharp",
-        defaultCode: `using System;
-using System.Linq;
+//     return 0;
+// }`,
+//     },
+//     csharp: {
+//         id: "csharp",
+//         label: "C#",
+//         logoPath: "/csharp.png",
+//         pistonRuntime: { language: "csharp", version: "6.12.0" },
+//         monacoLanguage: "csharp",
+//         defaultCode: `using System;
+// using System.Linq;
 
-class Program {
-    static void Main() {
-        // Create array
-        int[] numbers = { 1, 2, 3, 4, 5 };
+// class Program {
+//     static void Main() {
+//         // Create array
+//         int[] numbers = { 1, 2, 3, 4, 5 };
         
-        // Print original numbers
-        Console.WriteLine($"Original numbers: {string.Join(" ", numbers)}");
+//         // Print original numbers
+//         Console.WriteLine($"Original numbers: {string.Join(" ", numbers)}");
         
-        // Calculate squares
-        var squares = numbers.Select(n => n * n);
-        Console.WriteLine($"Squared numbers: {string.Join(" ", squares)}");
+//         // Calculate squares
+//         var squares = numbers.Select(n => n * n);
+//         Console.WriteLine($"Squared numbers: {string.Join(" ", squares)}");
         
-        // Filter even numbers
-        var evenNumbers = numbers.Where(n => n % 2 == 0);
-        Console.WriteLine($"Even numbers: {string.Join(" ", evenNumbers)}");
+//         // Filter even numbers
+//         var evenNumbers = numbers.Where(n => n % 2 == 0);
+//         Console.WriteLine($"Even numbers: {string.Join(" ", evenNumbers)}");
         
-        // Calculate sum
-        var sum = numbers.Sum();
-        Console.WriteLine($"Sum of numbers: {sum}");
-    }
-}`,
-    },
+//         // Calculate sum
+//         var sum = numbers.Sum();
+//         Console.WriteLine($"Sum of numbers: {sum}");
+//     }
+// }`,
+//     },
+    
     ruby: {
         id: "ruby",
+        judgeO_Id:72,
         label: "Ruby",
         logoPath: "/ruby.png",
         pistonRuntime: { language: "ruby", version: "3.0.1" },
@@ -312,6 +321,7 @@ puts "Sum of numbers: #{sum}"`,
     },
     swift: {
         id: "swift",
+        judgeO_Id : 83,
         label: "Swift",
         logoPath: "/swift.png",
         pistonRuntime: { language: "swift", version: "5.3.3" },
