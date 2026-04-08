@@ -18,7 +18,7 @@ export default function UserDashboard() {
 
     const navItems = [
         { icon: FaHome, label: 'Dashboard', path: '/dashboard', active: true },
-        { icon: LuFolderGit2, label: 'My Repos', path: '/repos' },
+        { icon: LuFolderGit2, label: 'My Repos', path: '/github-Repo' },
         { icon: IoCodeSlash, label: 'Code Editor', path: '/codeEditor' },
         { icon: HiTrendingUp, label: 'Timeline', path: '/timeline' },
         { icon: FaRegLightbulb, label: 'Recommendations', path: '/recommendations' },

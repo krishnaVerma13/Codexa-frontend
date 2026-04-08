@@ -104,6 +104,36 @@ export const GetCurrentUser = async () => {
 }
 
 
+export const GetAllGithubRepos = async (userName : string) => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + `/user/github/${userName}/public/all-repos`
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Verify OTP failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+
+
 // export const RunCodeApi = async(data : object)=>{
 //     let url = CodeRunApiUrl;
 //      try {

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { ScorePill } from '../../components/ScorePill';
-import { LuGithub } from "react-icons/lu";
-import { CiSearch } from "react-icons/ci";
+
 import { Resizable } from 're-resizable'
 
 import EditorPanel from '../../components/codeEditor/EditorPanel';
 import OutputPanel from '../../components/codeEditor/OutputPanel';
+import GithubRepo from '../../components/githubRepo/GithubRepo';
 
 export default function CodeEditor() {
 
@@ -183,49 +183,7 @@ export default function CodeEditor() {
           // Github Import Tob 
           <div className="flex-1 p-12">
             {/* Search Bar */}
-            <div className="mb-8">
-              <div className="relative">
-                <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[#454C5E]" size={20} />
-                <input
-                  type="text"
-                  placeholder="Search your repositories..."
-                  className="w-full h-14 pl-12 pr-4 bg-[#0D1117] border border-[#1E2330] rounded-lg font-mono text-sm text-[#F0F2F5] outline-none focus:border-[#B8F5D4] transition-colors"
-                />
-              </div>
-            </div>
-
-            {/* Repo List */}
-            <div className="space-y-2">
-              {[
-                { name: 'react-portfolio', lang: 'TypeScript', updated: '2 days ago', stars: 24 },
-                { name: 'api-backend', lang: 'Node.js', updated: '5 days ago', stars: 12 },
-                { name: 'e-commerce-shop', lang: 'React', updated: '1 week ago', stars: 45 },
-                { name: 'chat-application', lang: 'Python', updated: '2 weeks ago', stars: 8 },
-                { name: 'portfolio-site', lang: 'Next.js', updated: '3 weeks ago', stars: 15 },
-                { name: 'ml-experiments', lang: 'Python', updated: '1 month ago', stars: 32 },
-              ].map((repo) => (
-                <button
-                  key={repo.name}
-                  className="w-full h-18 px-6 bg-[#0D1117] border border-[#1E2330] rounded-lg flex items-center justify-between hover:border-[#B8F5D4]/30 transition-colors group"
-                >
-                  <div className="flex items-center gap-4">
-                    <LuGithub className="text-[#454C5E] group-hover:text-[#B8F5D4] transition-colors" size={24} />
-                    <div className="text-left">
-                      <div className="font-mono text-sm text-[#F0F2F5] mb-1">{repo.name}</div>
-                      <div className="flex items-center gap-2 font-mono text-xs text-[#454C5E]">
-                        <span>{repo.lang}</span>
-                        <span>·</span>
-                        <span>{repo.updated}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 font-mono text-xs text-[#454C5E]">
-                    <span>⭐</span>
-                    <span>{repo.stars}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
+            <GithubRepo/>
           </div>
         )}
       </div>
