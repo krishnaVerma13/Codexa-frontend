@@ -21,8 +21,28 @@ export default function EditorPanel() {
     const fontSize = useAppSelector(selectFontSize)
     const currentCode = useAppSelector(selectCurrentCode)
 
+    
+    
+    // useEffect for set file name 
+    // const [gitFileName , setGitFileName] = useState();
+    // useEffect(()=>{
+    //     const locakStore = localStorage.getItem("timeLine")
+    //     const timeLine = JSON.parse(locakStore || "")
+    //    if(timeLine){
+    //     const GitFileName = timeLine[timeLine.length -1].name
+    //     setGitFileName(GitFileName);
+    //     return
+    //    }
+    //     // console.log("time Line : ", timeLine);
+    //     // console.log("local store : ", locakStore);
+    // },[])
+   
+    // console.log("current code :",currentCode);
+    
     // Monaco instance lives here — not in Redux
-        const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+       
+    
+    const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
     // helper — get current code from Monaco
     // const getCode = () => editorRef.current?.getValue() || "";
@@ -55,6 +75,8 @@ export default function EditorPanel() {
 
         // 1. save code of the OLD language before switching
         const currCode = editorRef.current.getValue();
+        console.log("useeffect currCode :",currCode);
+        
         if (currentCode) {
             localStorage.setItem(`editor-code-${prevLanguage}`, currCode);
         }
@@ -74,6 +96,12 @@ export default function EditorPanel() {
         prevLanguageRef.current = language;
 
     }, [language]);
+
+    useEffect(()=>{
+        if (!editorRef.current) return;
+        console.log(" useEffect code :",currentCode);
+       
+    },[currentCode])
 
 
 
@@ -97,13 +125,13 @@ export default function EditorPanel() {
             {/* Code Editor Panel */}
             <div className="flex-1 flex flex-col border-r border-[#1E2330]">
                 {/* Editor Header */}
-                <div className="h-14 border-b border-[#1E2330] flex items-center justify-between px-6">
-                    <input
+                <div className="h-14 border-b border-[#1E2330] flex items-center justify-between px-6 scrollbar-hide">
+                    {/* <input
                         type="text"
-                        placeholder="filename.js"
+                        placeholder="filename"
                         className="bg-transparent font-mono text-sm text-[#F0F2F5] outline-none"
-                        defaultValue="analyzer.js"
-                    />
+                        // defaultValue={(timeLine && timeLine[timeLine.length -1]) || ""}
+                    /> */}
                     <div className='space-x-2.5 flex'>
 
                         {/* Font Size button with slider */}
@@ -123,8 +151,11 @@ export default function EditorPanel() {
                                 </span>
                             </div>
                         </div>
-
+                       
+                        {/* Theme Selector component */}
                         <ThemeSelector />
+
+                        {/* Language Selector component */}
                         <LanguageSelector />
 
                         <div className="space-x-2 flex flex-row">
@@ -138,6 +169,8 @@ export default function EditorPanel() {
                             >
                                 <IoReload className="size-4 text-gray-400" />
                             </motion.button>
+
+                            {/* Run code button  */}
                             <RunCodeBtn/>
                         </div>
                     </div>

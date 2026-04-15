@@ -56,3 +56,22 @@ export interface GithubRepoResponce {
     created_at: string;
     updated_at: string;
 }
+
+export interface GithubFolderItem {
+    download_url: string | null;
+    git_url: string | null;
+    html_url: string | null;
+    name: string | null;
+    path: string | null;
+    sha: number| null;
+    size: number | null;
+    type: string | null;
+    url: string | null;
+    _links: string | null;
+}
+
+export interface TimeLine {
+    name: string;
+    path: string;
+    fileType: string;
+}

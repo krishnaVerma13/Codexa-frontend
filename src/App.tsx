@@ -13,12 +13,15 @@ import CodeEditor from "./pages/dashboard/CodeEditor"
 import MyRepo from "./pages/dashboard/MyRepo"
 
 
+
+
+
 function App() {
+
+
  
   return (
-    <>
-    
-    <Routes>
+    <><Routes>
      
       <Route path="/" element={<HomePg/>} /> 
       <Route path="/userProfile" element={<UserProfile/>} />
@@ -26,7 +29,7 @@ function App() {
       <Route path="/signup" element={<Signup/>} /> 
       <Route path="/login" element={<Login/>} /> 
       <Route path="/verify-otp" element={<VerifyOTP/>} /> 
-      <Route path="/onboarding" element={<OnBording/>} /> 
+      <Route path="/onboarding" element={<OnBording SignUp="both"/>} /> 
       <Route path="/auth/callback" element={<AuthCallback/>} /> 
       <Route path="/logout" element={<Logout/>} /> 
       <Route path="/dashboard" element={<UserDashboard/>} /> 

@@ -131,6 +131,74 @@ export const GetAllGithubRepos = async (userName : string) => {
     }
 }
 
+export const GetGithubRepoContents = async (full_name :string , path : string| null) => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + `/user/github/public/repo/contents`
+            const response = await axios.post(url, 
+                {
+                    data: {
+                        full_name: full_name,
+                        path: path
+                    },
+                },{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log("responce : ",response);
+
+            return response.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Get Github Repo Contents API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Get Github Repo Contents failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const GetGithubRepoTree = async (full_name :string , sha : string| null , type : string | null) => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + `/user/github/public/repo/tree`
+            const response = await axios.post(url, 
+                {
+                    data: {
+                        full_name: full_name,
+                        sha: sha,
+                        type: type
+                    },
+                },{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            // console.log("responce : ",response);
+
+            return response.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Get Github Repo tree API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Get Github Repo tree failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
 
 
 

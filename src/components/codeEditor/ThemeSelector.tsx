@@ -21,6 +21,7 @@ const THEME_ICONS: Record<string, React.ReactNode> = {
 };
 
 export default function ThemeSelector() {
+    
     const dispatch = useAppDispatch()
     const [isOpen, setIsOpen] = useState(false);
     const theme = useAppSelector(selectTheme);
@@ -49,7 +50,8 @@ export default function ThemeSelector() {
             <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {setIsOpen(!isOpen) , console.log("is open :",isOpen);
+                }}
                 className="w-48 group relative flex items-center gap-2 px-4 py-2.5 bg-[#1e1e2e]/80 hover:bg-[#262637] 
                  rounded-lg transition-all duration-200 border border-gray-800/50 hover:border-gray-700"
             >

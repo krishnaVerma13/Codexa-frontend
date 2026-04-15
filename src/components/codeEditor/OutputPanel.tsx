@@ -2,7 +2,7 @@ import { selectError, selectExecutionResult, selectFontSize, selectIsRunning, se
 import { useAppSelector } from "../../store/Store"
 
 import { FaCode } from "react-icons/fa6";
-import RunningCodeSkeleton from "./RunningCodeSkeleton ";
+import RunningCodeSkeleton from "./RunningCodeSkeleton";
 
 
 export default function OutputPanel() {

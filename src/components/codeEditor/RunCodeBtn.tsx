@@ -52,10 +52,10 @@ export default function RunCodeBtn() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleRunCode}
-            className="p-3 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors"
+            className="p-3 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors flex justify-center items-center"
             aria-label="Reset to default code"
         >
-            <HiPlay className="size-4 text-gray-400" />
+            Run <HiPlay className="size-5 text-gray-400 mx-1" />
         </motion.button>
     </>)
 }

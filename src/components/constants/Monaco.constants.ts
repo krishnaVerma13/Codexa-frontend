@@ -344,6 +344,15 @@ print("Even numbers: \\(evenNumbers)")
 let sum = numbers.reduce(0, +)
 print("Sum of numbers: \\(sum)")`,
     },
+    text: {
+        id: "text",
+        judgeO_Id : 83,
+        label: "Text",
+        logoPath: "/text.png",
+        pistonRuntime: { language: "text", version: "5.3.3" },
+        monacoLanguage: "text",
+        defaultCode: `// Plain text editor. No syntax highlighting or language features.`,
+    },
 };
 
 export const THEMES: Theme[] = [

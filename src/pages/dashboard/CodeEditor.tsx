@@ -7,12 +7,18 @@ import { Resizable } from 're-resizable'
 import EditorPanel from '../../components/codeEditor/EditorPanel';
 import OutputPanel from '../../components/codeEditor/OutputPanel';
 import GithubRepo from '../../components/githubRepo/GithubRepo';
+// import { useQueries } from '@tanstack/react-query';
+import { useCodeEditorState, useSetCodeEditorState } from '../../routes/queryHooks/CodeEditor.Query';
 
 export default function CodeEditor() {
 
-  const [activeTab, setActiveTab] = useState<'write' | 'import'>('write');
+  // const location = useLocation()
+  // const [activeTab, setActiveTab] = useState<'write' | 'import'>( location?.state?.activeTab ||'write');
   const [analyzed, setAnalyzed] = useState(false);
   const [editorWidth, setEditorWidth] = useState(70);
+
+  const   activeTab = useCodeEditorState()?.data || 'write'
+  const setActiveTab = useSetCodeEditorState()
 
   return (
     <div className="min-h-screen bg-[#06070A] flex flex-col">
@@ -79,7 +85,7 @@ export default function CodeEditor() {
             >
               <div className='py-3  px-4 flex justify-end  border-b border-amber-50'>
                 <button
-                  onClick={() => setAnalyzed(true)}
+                  onClick={() => setAnalyzed(!analyzed)}
                   className="px-8 py-1 bg-[#B8F5D4] text-[#06070A] font-display text-base rounded-sm hover:bg-[#A5E5C1] transition-colors"
                 >
                   ANALYZE
