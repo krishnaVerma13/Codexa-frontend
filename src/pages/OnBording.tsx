@@ -2,7 +2,7 @@ import { LuGithub } from "react-icons/lu";
 import { BiLogIn } from "react-icons/bi";
 import { MdOutlineAssignmentInd } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface onBordingProps {
     SignUp: "both" | "github" | "email"
@@ -11,6 +11,10 @@ interface onBordingProps {
 export default function OnBording({ SignUp = "both" }: onBordingProps) {
 
     const navigator = useNavigate()
+    const location = useLocation()
+    const signUpMode = location.state?.SignUp ?? SignUp
+    console.log("signUP :",SignUp);
+    
 
 
     return (<>
@@ -27,7 +31,7 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
             </div>
             <div className="flex w-full ">
 
-                {(SignUp === "both" || SignUp === "github") &&
+                {(signUpMode === "both" || signUpMode === "github") &&
                     <div className="flex justify-center w-full ">
 
                         {/* <div className=" grid md:grid-cols-2 gap-16 w-full"> */}
@@ -66,11 +70,11 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
                     </div>
                 }
                 {/* Vertical Divider line  */}
-                {SignUp === "both" &&
+                {signUpMode === "both" &&
                     <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-[#B8F5D4]/30 to-transparent transform rotate-6" />
                 }
 
-                {(SignUp === "both" || SignUp === "email") &&
+                {(signUpMode === "both" || signUpMode === "email") &&
                     <div className="flex justify-center items-center  w-full">
 
                         {/* <div className=" grid md:grid-cols-2 gap-16 w-full"> */}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ScorePill } from '../../components/ScorePill';
 
 import { Resizable } from 're-resizable'
@@ -9,10 +9,13 @@ import OutputPanel from '../../components/codeEditor/OutputPanel';
 import GithubRepo from '../../components/githubRepo/GithubRepo';
 // import { useQueries } from '@tanstack/react-query';
 import { useCodeEditorState, useSetCodeEditorState } from '../../routes/queryHooks/CodeEditor.Query';
+import { IoHome } from 'react-icons/io5';
+import { MdArrowBackIosNew } from 'react-icons/md';
 
 export default function CodeEditor() {
 
   // const location = useLocation()
+  const navigator = useNavigate()
   // const [activeTab, setActiveTab] = useState<'write' | 'import'>( location?.state?.activeTab ||'write');
   const [analyzed, setAnalyzed] = useState(false);
   const [editorWidth, setEditorWidth] = useState(70);
@@ -25,6 +28,12 @@ export default function CodeEditor() {
       {/* Top Bar */}
       <div className="h-14 border-b border-[#1E2330] flex items-center justify-between px-12">
         <div className="flex items-center gap-8">
+        <div 
+        onClick={()=> navigator("/dashboard")}
+        className='flex text-xl text-gray-600 hover:text-gray-200 duration-300'>
+          <MdArrowBackIosNew/>
+          <IoHome />
+        </div>
           <Link to="/" className="font-display text-2xl text-[#F0F2F5]">
             CODEXA
           </Link>

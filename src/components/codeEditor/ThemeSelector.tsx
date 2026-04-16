@@ -52,13 +52,13 @@ export default function ThemeSelector() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {setIsOpen(!isOpen) , console.log("is open :",isOpen);
                 }}
-                className="w-48 group relative flex items-center gap-2 px-4 py-2.5 bg-[#1e1e2e]/80 hover:bg-[#262637] 
+                className="w-full group relative flex items-center gap-2 px-4 py-2 bg-[#1e1e2e]/80 hover:bg-[#262637] 
                  rounded-lg transition-all duration-200 border border-gray-800/50 hover:border-gray-700"
             >
                 {/* hover state bg decorator */}
                 <div className="absolute inset-0 bg-linear-to-r from-blue-500/5 to-purple-500/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
                 <IoIosColorPalette className="w-4 h-4 text-gray-400 group-hover:text-gray-300 transition-colors" />
-                <span className="text-gray-300 min-w-20 text-left group-hover:text-white transition-colors text-nowrap">
+                <span className="text-gray-300 min-w-20 text-left group-hover:text-white transition-colors text-nowrap text-sm">
                     {currentTheme?.label}
                 </span>
 

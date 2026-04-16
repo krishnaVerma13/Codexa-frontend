@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 
 import { IoReload } from "react-icons/io5";
 import RunCodeBtn from "./RunCodeBtn";
+import EditorDropdown from "./EditorDropdown";
 
 export default function EditorPanel() {
 
@@ -21,8 +22,8 @@ export default function EditorPanel() {
     const fontSize = useAppSelector(selectFontSize)
     const currentCode = useAppSelector(selectCurrentCode)
 
-    
-    
+
+
     // useEffect for set file name 
     // const [gitFileName , setGitFileName] = useState();
     // useEffect(()=>{
@@ -36,12 +37,12 @@ export default function EditorPanel() {
     //     // console.log("time Line : ", timeLine);
     //     // console.log("local store : ", locakStore);
     // },[])
-   
+
     // console.log("current code :",currentCode);
-    
+
     // Monaco instance lives here — not in Redux
-       
-    
+
+
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
     // helper — get current code from Monaco
@@ -60,31 +61,31 @@ export default function EditorPanel() {
     const handleEditorChange = (value: string | undefined) => {
         // save code to localStorage on every change
         dispatch(setCurrentCode(value?.trim() || ""));
-        localStorage.setItem(`editor-code-${language}`, value || "");   
+        localStorage.setItem(`editor-code-${language}`, value || "");
     }
 
-   
+
 
     const prevLanguageRef = useRef(language); // tracks previous language
     useEffect(() => {
         // console.log("current code :",currentCode);
-        
+
         if (!editorRef.current) return;
 
         const prevLanguage = prevLanguageRef.current;
 
         // 1. save code of the OLD language before switching
         const currCode = editorRef.current.getValue();
-        console.log("useeffect currCode :",currCode);
-        
+        console.log("useeffect currCode :", currCode);
+
         if (currentCode) {
             localStorage.setItem(`editor-code-${prevLanguage}`, currCode);
         }
 
         // 2. load code for the NEW language
         const newCode = localStorage.getItem(`editor-code-${language}`) || LANGUAGE_CONFIG[language].defaultCode;
-            dispatch(setCurrentCode(newCode?.trim() )); // update Redux with the new code (optional, but keeps state in sync)
-            dispatch(setExecutionResult(undefined))
+        dispatch(setCurrentCode(newCode?.trim())); // update Redux with the new code (optional, but keeps state in sync)
+        dispatch(setExecutionResult(undefined))
         // 3. update Monaco model
         const model = editorRef.current.getModel();
         if (model) {
@@ -97,11 +98,11 @@ export default function EditorPanel() {
 
     }, [language]);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!editorRef.current) return;
-        console.log(" useEffect code :",currentCode);
-       
-    },[currentCode])
+        console.log(" useEffect code :", currentCode);
+
+    }, [currentCode])
 
 
 
@@ -111,13 +112,13 @@ export default function EditorPanel() {
         localStorage.setItem("editor-font-size", size.toString());
     }
 
-     const handleRefresh = () => {
+    const handleRefresh = () => {
         const defaultCode = LANGUAGE_CONFIG[language].defaultCode;
         editorRef.current?.setValue(defaultCode);
         localStorage.removeItem(`editor-code-${language}`);
     };
 
-     
+
 
     return (
         <div className="relative w-full">
@@ -134,44 +135,51 @@ export default function EditorPanel() {
                     /> */}
                     <div className='space-x-2.5 flex'>
 
-                        {/* Font Size button with slider */}
-                        <div className="flex items-center gap-3 px-3 py-2 bg-[#1e1e2e] rounded-lg ring-1 ring-white/5">
-                            <RiFontSizeAi className="size-4 text-gray-400" />
-                            <div className="flex items-center gap-3">
-                                <input
-                                    type="range"
-                                    min="12"
-                                    max="24"
-                                    value={fontSize}
-                                    onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
-                                    className="w-20 h-1 bg-gray-600 rounded-lg cursor-pointer"
-                                />
-                                <span className="text-sm font-medium text-gray-400 min-w-8 text-center">
-                                    {fontSize}
-                                </span>
+
+
+
+                        <EditorDropdown align="left">
+                            
+                             {/* Font Size button with slider */}
+                            <div className="flex items-center gap-3 px-3 py-2 bg-[#1e1e2e] rounded-lg ring-1 ring-white/5 my-2">
+                                <RiFontSizeAi className="size-4 text-gray-400" />
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="range"
+                                        min="12"
+                                        max="24"
+                                        value={fontSize}
+                                        onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
+                                        className="w-20 h-1 bg-gray-600 rounded-lg cursor-pointer"
+                                    />
+                                    <span className="text-sm font-medium text-gray-400 min-w-8 text-center">
+                                        {fontSize}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                       
-                        {/* Theme Selector component */}
-                        <ThemeSelector />
 
-                        {/* Language Selector component */}
-                        <LanguageSelector />
-
-                        <div className="space-x-2 flex flex-row">
                             {/* Reload button */}
                             <motion.button
-                                whileHover={{ scale: 1.1 }}
+                                whileHover={{ scale: 1.01 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleRefresh}
-                                className="p-3 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors"
+                                className="px-3 py-2 bg-[#1e1e2e] hover:bg-[#2a2a3a] rounded-lg ring-1 ring-white/5 transition-colors flex items-center space-x-2 w-full"
                                 aria-label="Reset to default code"
                             >
-                                <IoReload className="size-4 text-gray-400" />
+                                <IoReload className="size-4 text-gray-400" /><span className="text-sm">Reload</span>
                             </motion.button>
 
-                            {/* Run code button  */}
-                            <RunCodeBtn/>
+                             {/* Theme Selector component */}
+                            <ThemeSelector />
+
+                        </EditorDropdown>
+                            {/* Language Selector component */}
+                            <LanguageSelector />
+
+
+                        <div className="space-x-2 flex flex-row">
+                                 {/* Run code button  */}
+                            <RunCodeBtn />
                         </div>
                     </div>
                 </div>
@@ -216,4 +224,8 @@ export default function EditorPanel() {
             </div>
         </div>
     )
+
+
+
+
 }

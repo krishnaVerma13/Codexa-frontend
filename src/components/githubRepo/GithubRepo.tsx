@@ -23,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { detectLanguage } from "../function/useLanguageDetector";
 import { useSetCodeEditorState } from "../../routes/queryHooks/CodeEditor.Query";
 import { useToastContext } from "../toster/ToastContext";
+import { MdArrowBackIosNew } from "react-icons/md";
+import { IoHome } from "react-icons/io5";
 // import { useToast } from "../toster/Usetoast";
 
 export default function GithubRepo() {
@@ -210,9 +212,15 @@ export default function GithubRepo() {
 
 
     return (<>
-
+        <div className=" flex items-center text-2xl p-2 space-x-2 relative bottom-6">
+            <MdArrowBackIosNew
+            onClick={()=> navigator('/dashboard')}
+            className="text-gray-600 hover:text-gray-200 duration-300"/>
+            <IoHome className="text-gray-600 hover:text-gray-200 duration-300"/>
+            {/* <MdArrowBackIosNew className="rotate-180"/> */}
+        </div>
         {/* Time line for github repo component */}
-        <div className="flex space-x-2 ">
+        <div className="flex space-x-2  ">
             <div className="w-full text-sm bg-[#0D1117] border border-[#1E2330] rounded-lg h-10 flex items-center  mb-4 overflow-x-scroll scrollbar-hide text-nowrap ">
                 <PiFolderSimpleMinus className="m-2" />
                 <p
@@ -271,7 +279,7 @@ export default function GithubRepo() {
                         <button
                             onClick={() => { handelRepoCliick(repo?.full_name, null), handelTimeLine(true, { name: repo.name, path: repo.full_name, fileType: "dir" }) }}
                             key={repo.name}
-                            className="w-full h-18 px-6 bg-[#0D1117] border border-[#1E2330] rounded-lg flex items-center justify-between hover:border-[#B8F5D4]/30 transition-colors group"
+                            className="w-full h-18 px-6 bg-[#0D1117] border border-[#1E2330] rounded-lg flex items-center justify-between hover:border-[#B8F5D4]/30 transition-colors group hover:cursor-pointer"
                         >
                             <div className="flex items-center gap-4">
                                 <LuGithub className="text-[#454C5E] group-hover:text-[#B8F5D4] transition-colors" size={24} />

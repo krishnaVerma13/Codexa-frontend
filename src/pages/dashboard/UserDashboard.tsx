@@ -9,7 +9,7 @@ import { MdLogout } from "react-icons/md";
 import { CiBellOn } from "react-icons/ci";
 import { useUser } from "../../routes/queryHooks/User.Query";
 import { useEffect } from "react";
-
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export default function UserDashboard() {
     const navigator = useNavigate();
@@ -36,6 +36,7 @@ export default function UserDashboard() {
                 <div 
                 onClick={()=> navigator('/')}
                 className="h-20 flex items-center px-6 border-b border-[#1E2330] hover:cursor-pointer">
+                    <IoMdArrowRoundBack className="size-6 mx-3"/>
                     <span className="font-display text-2xl text-[#F0F2F5]">CODEXA</span>
                 </div>
 
