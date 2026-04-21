@@ -34,7 +34,8 @@ export const RunCodeApi = async (code : string , id : number):Promise<RunCodeRes
             timeout: 10000, // 10 seconds timeout
         }
     );
-
+    // console.log("responce :",response);
+    
     return {
       output: response.data.stdout,
       error: response.data.stderr,

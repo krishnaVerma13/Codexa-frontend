@@ -11,6 +11,7 @@ import AuthCallback from "./pages/authPages/AuthCallback"
 import Logout from "./components/function/Logout"
 import CodeEditor from "./pages/dashboard/CodeEditor"
 import MyRepo from "./pages/dashboard/MyRepo"
+import ForgetPassword from "./pages/authPages/ForgetPassword"
 
 
 
@@ -35,6 +36,8 @@ function App() {
       <Route path="/dashboard" element={<UserDashboard/>} /> 
       <Route path="/codeEditor" element={<CodeEditor/>} /> 
       <Route path="/github-Repo" element={<MyRepo/>} /> 
+      <Route path="/forgetPassword" element={<ForgetPassword/>} /> 
+      
       
       
 

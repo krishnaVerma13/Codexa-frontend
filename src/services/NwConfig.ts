@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { EmailLogin, EmailSignup } from "../interface/auth.type";
-import { API_BASE_URL, GetUserData, LoginUrl, ResendOTPUrl, SignupUrl, VerifyOTPUrl } from "./api";
+import { AnalysisEditorUrl, AnalysisGithubUrl, AnalysisHistoryIDURl, AnalysisHistoryURl, API_BASE_URL, GetUserData, LoginUrl, ResendOTPUrl, SignupUrl, VerifyEmail, VerifyOTPUrl } from "./api";
+import type { IAnalyzeEditorBody, IAnalyzeGithubBody } from "./service.Types";
 
 const getToken = () => {
     const token = localStorage.getItem('token')
@@ -48,6 +49,21 @@ export const EmailLoginApi = async (data: EmailLogin) => {
 export const VerifyOTPApi = async (data: object) => {
     try {
         let url = API_BASE_URL + VerifyOTPUrl
+        const response = await axios.post(url, data);
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Verify OTP failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const VerifyEmailApi = async (data: object) => {
+    try {
+        let url = API_BASE_URL + VerifyEmail
         const response = await axios.post(url, data);
         return response.data;
     } catch (error) {
@@ -198,6 +214,125 @@ export const GetGithubRepoTree = async (full_name :string , sha : string| null ,
         return { success: false, message: "An unexpected error occurred" };
     }
 }
+
+
+// analysis AI APi 
+
+export const GetAnalysisEditorCode = async (file: IAnalyzeEditorBody) => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + AnalysisEditorUrl
+            const response = await axios.post(url, file ,
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Verify OTP failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const GetAnalysisGithubCode = async (file: IAnalyzeGithubBody) => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + AnalysisGithubUrl
+            const response = await axios.post(url, file ,
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Verify OTP failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const GetAnalysisHistory = async () => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + AnalysisHistoryURl
+            const response = await axios.get(url, 
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Verify OTP failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const GetAnalysisHistoryById = async (id : string) => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + AnalysisHistoryIDURl +`${id}`
+            const response = await axios.get(url, 
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Verify OTP failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
 
 
 

@@ -2,6 +2,7 @@ interface ScorePillProps {
   label: string;
   value: number;
   color: 'mint' | 'lavender' | 'peach' | 'sky' | 'yellow';
+  text:string
   showBar?: boolean;
 }
 
@@ -13,30 +14,30 @@ const colorMap = {
   yellow: '#FFF0A8',
 };
 
-export function ScorePill({ label, value, color, showBar = true }: ScorePillProps) {
+export function ScorePill({ label, value, color,text = "", showBar = true }: ScorePillProps) {
   const colorValue = colorMap[color];
-  
+
   return (
-    <div 
-      className="min-w-[140px] bg-[#0D1117] border border-[#1E2330] rounded-lg p-4"
+    <div
+      className="min-w-35 bg-[#0D1117] border border-[#1E2330] rounded-lg p-4"
       style={{ borderTop: `2px solid ${colorValue}` }}
     >
-      <div className="font-mono text-[10px] uppercase text-[#454C5E] mb-1">
+      <div className="font-mono text-[13px] uppercase  mb-1">
         {label}
       </div>
-      <div 
+      <div
         className="font-display text-[32px] leading-none mb-2"
         style={{ color: colorValue }}
       >
-        {value}
+        {value} <span className="font-mono text-[12px] uppercase text-[#737d97] mb-1">{text}</span>
       </div>
       {showBar && (
-        <div className="h-[3px] bg-[#1E2330] rounded-full overflow-hidden">
-          <div 
+        <div className="h-0.75 bg-[#1E2330] rounded-full overflow-hidden">
+          <div
             className="h-full rounded-full transition-all duration-500"
-            style={{ 
+            style={{
               width: `${value}%`,
-              backgroundColor: colorValue 
+              backgroundColor: colorValue
             }}
           />
         </div>

@@ -132,7 +132,8 @@ export default function Login() {
                                     Password
                                 </label>
                                 <a
-                                    href="/forgot-password"
+                                    // href="/forgetPassword"
+                                    onClick={()=> navigator("/forgetPassword")}
                                     className="font-mono text-sm tracking-widest uppercase text-[#454C5E] hover:text-[#B8F5D4] transition-colors duration-200" >
                                     Forgot?
                                 </a>

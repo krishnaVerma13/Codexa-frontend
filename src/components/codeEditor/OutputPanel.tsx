@@ -13,7 +13,7 @@ export default function OutputPanel() {
     const error = useAppSelector(selectError);
     const fontSize = useAppSelector(selectFontSize)
 
-    // console.log('font size', typeof(fontSize));
+    console.log("output",resStatus);
     
     return (<>
         {!resStatus && !isRunning &&

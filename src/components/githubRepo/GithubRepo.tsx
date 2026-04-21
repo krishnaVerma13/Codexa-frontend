@@ -212,13 +212,13 @@ export default function GithubRepo() {
 
 
     return (<>
-        <div className=" flex items-center text-2xl p-2 space-x-2 relative bottom-6">
+        {/* <div className=" flex items-center text-2xl p-2 space-x-2 relative bottom-6">
             <MdArrowBackIosNew
             onClick={()=> navigator('/dashboard')}
             className="text-gray-600 hover:text-gray-200 duration-300"/>
             <IoHome className="text-gray-600 hover:text-gray-200 duration-300"/>
-            {/* <MdArrowBackIosNew className="rotate-180"/> */}
-        </div>
+            <MdArrowBackIosNew className="rotate-180"/>
+        </div> */}
         {/* Time line for github repo component */}
         <div className="flex space-x-2  ">
             <div className="w-full text-sm bg-[#0D1117] border border-[#1E2330] rounded-lg h-10 flex items-center  mb-4 overflow-x-scroll scrollbar-hide text-nowrap ">

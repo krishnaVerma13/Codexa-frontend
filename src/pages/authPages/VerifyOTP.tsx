@@ -20,6 +20,10 @@ export default function VerifyOTP() {
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const userEmail = useLocation();
+  // const nextState = userEmail.state.next?.path == "/forgetPassword" ? userEmail.state.next?.state?.show : "" ;
+  console.log("userEMail :",userEmail.state.userEmail);
+  const next = userEmail.state?.next; 
+  
 
   const handleChange = (value: string, index: number): void => {
     if (!/^[0-9]$/.test(value) && value !== "") return; // only numbers
@@ -75,6 +79,10 @@ export default function VerifyOTP() {
 
   const handleSubmit = async (): Promise<void> => {
     setLoading(true);
+    console.log("next :", next);
+    console.log("next.path :", next.path);
+    console.log("next.state :", next.state);
+    
     const finalOtp = otp.join("");
     if (finalOtp.length !== 6) {
       alert("Please enter complete OTP");
@@ -82,18 +90,20 @@ export default function VerifyOTP() {
       return;
     }
     // console.log("OTP Submitted , user email :", finalOtp , userEmail.state.email);
-    // console.log("otp : ",typeof(otp));
-    const responce = await VerifyOTPApi({ email: userEmail.state.email, otp: finalOtp })
+    console.log("handel submit email : ",userEmail.state?.userEmail);
+    const responce = await VerifyOTPApi({ email: userEmail.state?.userEmail, otp: finalOtp })
     if (responce.success) {
       setLoading(false);
       setResStatus({ success: true, message: responce.message })
+      const nx = next.path ? (next.path , {state : next.state}) : next
+      navigator(nx)
+      console.log("nx :",nx);
       Swal.fire({
         title: "OTP verified successfully",
         icon: "success",
         showConfirmButton: false,
         timer: 1500
       });
-      navigator("/login")
     } else {
       setLoading(false);
       setResStatus({ success: false, message: responce.message || "OTP verification failed" })

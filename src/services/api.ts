@@ -3,8 +3,15 @@ export const API_BASE_URL = "http://localhost:5656/api";
 export const SignupUrl = "/user/register";
 export const LoginUrl = "/user/login";
 export const VerifyOTPUrl = "/user/verifyOtp";
+export const VerifyEmail = "/user/verifyEmail";
 export const ResendOTPUrl = "/user/resendOtp";
 export const GetUserData = "/user/getData"
+
+//Ai api 
+export const AnalysisEditorUrl = "/analysis/editor"
+export const AnalysisGithubUrl = "/analysis/github"
+export const AnalysisHistoryURl = "/analysis/history"
+export const AnalysisHistoryIDURl = "/analysis/"
 
 
 

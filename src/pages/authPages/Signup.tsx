@@ -94,7 +94,7 @@ export default function Signup() {
                 role: 'developer',
                 authType: 'email'
             })
-            navigator("/verify-otp", { state: { email: formData.email } })
+            navigator("/verify-otp", { state: { email: formData.email , next : "/login" } })
         } else {
             // alert(ApiResponce.message)
                 setLoading(false);

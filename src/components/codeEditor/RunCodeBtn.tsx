@@ -41,6 +41,7 @@ export default function RunCodeBtn() {
         }else{
             dispatch(setError(responce.error || responce.compileError || "Unknown error occurred"))
             dispatch(setExecutionResult(responce.status));
+            dispatch(setRunning(false))
         }
 
         dispatch(setRunning(false))
