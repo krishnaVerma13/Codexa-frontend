@@ -1,7 +1,14 @@
 import axios from "axios";
 import type { EmailLogin, EmailSignup } from "../interface/auth.type";
-import { AnalysisEditorUrl, AnalysisGithubUrl, AnalysisHistoryIDURl, AnalysisHistoryURl, API_BASE_URL, GetUserData, LoginUrl, ResendOTPUrl, SignupUrl, VerifyEmail, VerifyOTPUrl } from "./api";
+import { AnalysisEditorUrl, AnalysisGithubUrl, AnalysisHistoryIDURl, AnalysisHistoryURl, API_BASE_URL, GetUserData, LoginUrl, MyPatterenURL, RecommendationURL, ResendOTPUrl, SignupUrl, TimelineURL, VerifyEmail, VerifyOTPUrl } from "./api";
 import type { IAnalyzeEditorBody, IAnalyzeGithubBody } from "./service.Types";
+
+export interface Responce {
+    success : boolean,
+    message: string,
+    data? : any,
+    error?:any,
+}
 
 const getToken = () => {
     const token = localStorage.getItem('token')
@@ -328,6 +335,92 @@ export const GetAnalysisHistoryById = async (id : string) => {
         if (axios.isAxiosError(error)) {
             console.error("Verify OTP API error:", error.response?.data || error.message);
             return { success: false, message: error.response?.data?.message || "Verify OTP failed" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const GetTimeline = async (opt : string) => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + TimelineURL +`?groupBy=${opt}`
+            const response = await axios.get(url, 
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "Timeline not get" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+export const GetMyPattern = async () => {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + MyPatterenURL
+            const response = await axios.get(url, 
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "My Pattern not get" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const GetRecommendation = async ()=> {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + RecommendationURL
+            const response = await axios.get(url, 
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "My Pattern not get" };
         }
         return { success: false, message: "An unexpected error occurred" };
     }

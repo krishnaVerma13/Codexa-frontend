@@ -12,6 +12,9 @@ export const AnalysisEditorUrl = "/analysis/editor"
 export const AnalysisGithubUrl = "/analysis/github"
 export const AnalysisHistoryURl = "/analysis/history"
 export const AnalysisHistoryIDURl = "/analysis/"
+export const TimelineURL = "/analysis/timeline"
+export const MyPatterenURL = "/patterns/myPattren"
+export const RecommendationURL = "/recommendations/me"
 
 
 

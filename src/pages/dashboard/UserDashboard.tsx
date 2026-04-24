@@ -8,20 +8,25 @@ import { MdLogout } from "react-icons/md";
 // import { LuGithub } from "react-icons/lu";
 import { CiBellOn } from "react-icons/ci";
 import { useUser } from "../../routes/queryHooks/User.Query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import Timeline from "./Timeline";
+import MyRepo from "./MyRepo";
+import Recommendation from "./Recommendation";
 
 export default function UserDashboard() {
     const navigator = useNavigate();
 
     const {data , isLoading } =  useUser()
+    const [showPage , setShowPage] = useState("")
+    const [selectedFile , setSelectedfile] = useState('Dashboard')
 
     const navItems = [
-        { icon: FaHome, label: 'Dashboard', path: '/dashboard', active: true },
-        { icon: LuFolderGit2, label: 'My Repos', path: '/github-Repo' },
+        { icon: FaHome, label: 'Dashboard', path: '/dashboard' },
+        { icon: LuFolderGit2, label: 'My Repos', path: '' , file :'MyRepo'},
         { icon: IoCodeSlash, label: 'Code Editor', path: '/codeEditor' },
-        { icon: HiTrendingUp, label: 'Timeline', path: '/timeline' },
-        { icon: FaRegLightbulb, label: 'Recommendations', path: '/recommendations' },
+        { icon: HiTrendingUp, label: 'Timeline', path: '' , file :'Timeline'},
+        { icon: FaRegLightbulb, label: 'Recommendations', path: '' , file :'Recommendation'},
         { icon: MdLogout , label: 'Logout', path: '/logout' },
     ];
     useEffect(()=>{
@@ -42,20 +47,21 @@ export default function UserDashboard() {
 
                 {/* Nav Items */}
                 <nav className="flex-1 py-8">
-                    {navItems.map((item) => (
+                    {navItems.map((Nav, index) => (
                         <Link
-                            key={item.path}
-                            to={item.path}
-                            className={`flex items-center gap-3 px-6 py-3 font-mono text-sm transition-colors relative ${item.active
+                            key={index}
+                            to={Nav.path}
+                            onClick={()=> {setShowPage(Nav.file ? Nav.file : "") , setSelectedfile(Nav.label)}}
+                            className={`flex items-center gap-3 px-6 py-3 font-mono text-sm transition-colors relative ${Nav.label == selectedFile 
                                 ? 'text-[#B8F5D4]'
                                 : 'text-[#454C5E] hover:text-[#F0F2F5]'
                                 }`}
                         >
-                            {item.active && (
+                            {Nav.label == selectedFile  && (
                                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#B8F5D4]" />
                             )}
-                            <item.icon size={18} />
-                            {item.label}
+                            <Nav.icon size={18} />
+                            {Nav.label}
                         </Link>
                     ))}
                 </nav>
@@ -74,7 +80,7 @@ export default function UserDashboard() {
                 </div>
             </aside>
 
-            <main className="flex-1 overflow-auto">
+            <main className="flex-1 h-screen overflow-scroll scrollbar-hide">
                 {/* Top Bar */}
                 <div className="h-20 border-b border-[#1E2330] flex items-center justify-between px-12">
                     <div>
@@ -93,7 +99,15 @@ export default function UserDashboard() {
                 
                     </div>
                 </div>
-            {/* <EditorPanel/> */}
+                {
+                    showPage === 'MyRepo' && <MyRepo />
+                }
+                {
+                    showPage === 'Timeline' && <Timeline />
+                }
+                {
+                    showPage === 'Recommendation' && <Recommendation />
+                }
             </main>
 
         </div>

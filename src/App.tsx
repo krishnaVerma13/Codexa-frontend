@@ -12,6 +12,7 @@ import Logout from "./components/function/Logout"
 import CodeEditor from "./pages/dashboard/CodeEditor"
 import MyRepo from "./pages/dashboard/MyRepo"
 import ForgetPassword from "./pages/authPages/ForgetPassword"
+import Timeline from "./pages/dashboard/Timeline"
 
 
 
@@ -37,6 +38,7 @@ function App() {
       <Route path="/codeEditor" element={<CodeEditor/>} /> 
       <Route path="/github-Repo" element={<MyRepo/>} /> 
       <Route path="/forgetPassword" element={<ForgetPassword/>} /> 
+      <Route path="/timeline" element={<Timeline/>} /> 
       
       
       

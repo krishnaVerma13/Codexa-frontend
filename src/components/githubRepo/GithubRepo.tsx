@@ -23,8 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { detectLanguage } from "../function/useLanguageDetector";
 import { useSetCodeEditorState } from "../../routes/queryHooks/CodeEditor.Query";
 import { useToastContext } from "../toster/ToastContext";
-import { MdArrowBackIosNew } from "react-icons/md";
-import { IoHome } from "react-icons/io5";
+// import { MdArrowBackIosNew } from "react-icons/md";
+// import { IoHome } from "react-icons/io5";
 // import { useToast } from "../toster/Usetoast";
 
 export default function GithubRepo() {
