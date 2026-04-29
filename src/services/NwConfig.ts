@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { EmailLogin, EmailSignup } from "../interface/auth.type";
-import { AnalysisEditorUrl, AnalysisGithubUrl, AnalysisHistoryIDURl, AnalysisHistoryURl, API_BASE_URL, GetUserData, LoginUrl, MyPatterenURL, RecommendationURL, ResendOTPUrl, SignupUrl, TimelineURL, VerifyEmail, VerifyOTPUrl } from "./api";
+import { AnalysisEditorUrl, AnalysisGithubUrl, AnalysisHistoryIDURl, AnalysisHistoryURl, API_BASE_URL, forgotPassword, GetUserData, LoginUrl, MyPatterenURL, RecommendationURL, ResendOTPUrl, SignupUrl, TimelineURL, UpdatePhoto, UserDataUpdate, VerifyEmail, VerifyOTPUrl } from "./api";
 import type { IAnalyzeEditorBody, IAnalyzeGithubBody } from "./service.Types";
 
 export interface Responce {
@@ -357,7 +357,7 @@ export const GetTimeline = async (opt : string) => {
             });
             // console.log("responce : ",response);
 
-            return response;
+            return response.data;
         }
         return console.error("token not found.......");
     } catch (error) {
@@ -425,6 +425,85 @@ export const GetRecommendation = async ()=> {
         return { success: false, message: "An unexpected error occurred" };
     }
 }
+
+
+export const forgotPasswordAPI = async (data : object)=> {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+       
+        // console.log("token : ",token);
+        
+            let url = API_BASE_URL + forgotPassword
+            const response = await axios.post(url, 
+                {data:  data}
+            );
+            // console.log("responce : ",response);
+
+            return response.data;
+        
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "My Pattern not get" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+export const UpdateUserDataAPI = async (data : object)=> {
+    try {
+        // console.log("api call ",API_BASE_URL + GetUserData );
+
+        const token = getToken();
+        // console.log("token : ",token);
+        if (token) {
+            let url = API_BASE_URL + UserDataUpdate
+            const response = await axios.post(url, 
+                {data:  data},
+                {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            // console.log("responce : ",response);
+
+            return response.data;
+        }
+        return console.error("token not found.......");
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Verify OTP API error:", error.response?.data || error.message);
+            return { success: false, message: error.response?.data?.message || "My Pattern not get" };
+        }
+        return { success: false, message: "An unexpected error occurred" };
+    }
+}
+
+
+export const UploadProfilePhoto = async (file: File) => {
+  try {
+    const token = getToken();
+    if (!token) return console.error("token not found");
+
+    const formData = new FormData();
+    formData.append("profilePhoto", file); // must match upload.single("profilePhoto")
+
+    const url = API_BASE_URL + UpdatePhoto;
+    const response = await axios.post(url, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return { success: false, message: error.response?.data?.message || "Upload failed" };
+    }
+    return { success: false, message: "An unexpected error occurred" };
+  }
+};
 
 
 

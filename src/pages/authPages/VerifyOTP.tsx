@@ -21,7 +21,8 @@ export default function VerifyOTP() {
 
   const userEmail = useLocation();
   // const nextState = userEmail.state.next?.path == "/forgetPassword" ? userEmail.state.next?.state?.show : "" ;
-  console.log("userEMail :",userEmail.state.userEmail);
+  console.log("userEMail :",userEmail.state?.email);
+  console.log("from :",userEmail.state?.next);
   const next = userEmail.state?.next; 
   
 
@@ -57,8 +58,8 @@ export default function VerifyOTP() {
   const reSendOtp = async (): Promise<string> =>{
     const email = userEmail.state.email;
     if(!email){
-      setResStatus({ success: false, message: "Email not found" })
-      return "Email not found";
+      setResStatus({ success: false, message: "Email not found" }) 
+      return"Email not found";
     }
     // Call resend OTP API here with the email
     const responce = await ResendOTPApi({ email })
@@ -90,14 +91,20 @@ export default function VerifyOTP() {
       return;
     }
     // console.log("OTP Submitted , user email :", finalOtp , userEmail.state.email);
-    console.log("handel submit email : ",userEmail.state?.userEmail);
-    const responce = await VerifyOTPApi({ email: userEmail.state?.userEmail, otp: finalOtp })
+    console.log("handel submit email : ",userEmail.state?.email);
+    const responce = await VerifyOTPApi({ email: userEmail.state?.email, otp: finalOtp })
+     
     if (responce.success) {
       setLoading(false);
       setResStatus({ success: true, message: responce.message })
-      const nx = next.path ? (next.path , {state : next.state}) : next
-      navigator(nx)
-      console.log("nx :",nx);
+      console.log("log uper :",next);
+      if(next == "/forgetPassword"){
+        console.log("if statement call");
+        navigator(next , {state : {show : "password" , userEmail : userEmail.state?.email}})
+      }else{
+        navigator(next)
+      }
+
       Swal.fire({
         title: "OTP verified successfully",
         icon: "success",
@@ -110,6 +117,14 @@ export default function VerifyOTP() {
     }
 
   };
+
+  if(next == "/forgetPassword" ){
+    console.log("true");
+    
+  }else{
+    console.log("false");
+    
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#06070A]">

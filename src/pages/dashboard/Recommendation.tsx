@@ -4,7 +4,9 @@ import type { RecommendationsData , Recommendation, PatternData } from "../../co
 import {  RESOURCE_CONFIG } from "../../components/recommendation/constant";
 import { PatternPill  , RecommendationCard , EmptyState} from "../../components/recommendation/Cards";
 import { useQuery } from "@tanstack/react-query";
-
+import { PiWarningDiamondBold } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
+import WelcomeBanner from "../../components/dashboard/WelcomBanncer";
 
 
 
@@ -27,6 +29,8 @@ type ResourceFilter = "all" | Recommendation["resourceType"];
 
 
 export default function Recommendations() {
+
+  const navigator = useNavigate()
 
   const { data, isLoading, error } = useQuery({
   queryKey: ["RecData"],
@@ -92,7 +96,7 @@ const  recResponse = data?.recom;
     color: "#e8eaed",
     fontFamily: "'Syne', sans-serif",
     padding: "1.75rem 1.5rem 4rem",
-    maxWidth: 900,
+    minWidth: "100vh",
     margin: "0 auto",
   };
 
@@ -136,6 +140,7 @@ const  recResponse = data?.recom;
   if (err) {
     return (
       <div
+      className="flex flex-col"
         style={{
           ...pageStyle,
           display: "flex",
@@ -143,22 +148,31 @@ const  recResponse = data?.recom;
           justifyContent: "center",
         }}
       >
-        <div
+            <WelcomeBanner onStart={() => navigator("/codeEditor")} /> 
+
+         <div
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 12,
-            color: "#f87171",
-            background: "rgba(248,113,113,0.08)",
-            border: "1px solid rgba(248,113,113,0.2)",
-            borderRadius: 8,
-            padding: "12px 16px",
+            fontSize: 22,
+            color: "#3e4555",
+            textAlign: "center",
           }}
         >
-          // error: {err}
+          <div className="flex justify-center mb-5">
+            {/* <PiWarningDiamondBold className="mx-2 text-5xl"/> */}
+            </div>
+         {err}
         </div>
+       
       </div>
     );
   }
+
+   if(patResponse?.data?.length  == 0  || recResponse?.data?.length == 0 ){
+            return<div
+            className="absolute top-70 left-130 flex justify-center items-center"
+            > <WelcomeBanner onStart={() => navigator("/codeEditor")} /></div>    
+        }
 
   return (
     <div className="mx-10 mt-10 mb-20">

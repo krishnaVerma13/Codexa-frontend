@@ -24,6 +24,7 @@ export interface EmailLogin {
 export interface LoginError{
     email?: string,
     password?: string,
+    confpassword? : string
 }
 
 export interface GithubSignup {};
@@ -41,6 +42,7 @@ export interface User {
     trialUsed: Number;
     trialLimit: Number;
     authType: string;
+    userProfile?: string;
     createdAt: Date;
     updatedAt: Date;
 }

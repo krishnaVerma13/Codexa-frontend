@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { Link } from "react-router-dom"
 import { FaRegSave } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
@@ -13,31 +13,81 @@ import { useUser } from "../../routes/queryHooks/User.Query";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import DisconnectGithubPopup from "../../components/pageComponents/DisconnectGithubPopup";
+// import { UploadProfilePhoto } from "../../services/NwConfig";
+// import { QueryClient } from "@tanstack/react-query";
+import ProfilePhotoUpload from "../../components/userProfile/ProfilePhotoUpload";
+import { UpdateUserDataAPI } from "../../services/NwConfig";
+import { Skeleton } from 'boneyard-js/react'
+
 
 export default function UserProfile() {
 
-  const { data } = useUser();
+  const { data  , isLoading , refetch : refetchUser} = useUser();
+  console.log("is loading :",isLoading);
+  console.log("data :",data);
+  
   const navigator = useNavigate()
   const [showPopup, setShowPopup] = useState(false)
+  const [isUpdateError , setUpdateError] = useState("")
+  // const [isUpload, setIsUpload] = useState(false)
 
   // const [showPassword, setShowPassword] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: data?.name,
-    username: data?.githubUsername,
-    email: data?.email,
+    name: '',
+    username: '',
+    email: '',
     website: '',
     location: '',
+    userProfile: '',
   });
 
-  const handleSave = () => {
+  useEffect(() => {
+    if (!data) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      name: data.name || '',
+      username: data.githubUsername || '',
+      email: data.email || '',
+      userProfile: data.userProfile || '',
+    }));
+  }, [data]);
+
+  const handleSave = async() => {
+    const data = {
+      name : formData.name
+    }
+    const resp = await UpdateUserDataAPI(data);
+    if(resp.success == false){
+      setUpdateError(resp.message || "update Fail");
+      return
+    }
+    refetchUser()
     setIsEditing(false);
     // Handle save logic here
   };
 
+  // const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
+
+  //   const res = await UploadProfilePhoto(file);
+  //   if (res?.success) {
+  //     console.log("new photo url:", res.data.profilePhoto);
+  //     // invalidate user query so header/avatar re-fetches
+  //     // QueryClient.invalidateQueries({ queryKey: ["currentUser"] });
+  //   }
+  // };
+
+  if(isLoading){
+    return <p className="text-9xl">Loading......</p>
+  }
 
   return (
     <div>
+        <Skeleton name="userProfile" loading={isLoading} >
+
       <div className="min-h-screen bg-[#06070A] scrollbar-hide">
 
         {/* <Navbar variant="app" /> */}
@@ -88,47 +138,79 @@ export default function UserProfile() {
               <p className="font-mono text-sm text-[#454C5E]">
                 Manage your account settings and preferences
               </p>
+              {isUpdateError && (
+                <p className="mt-3 font-mono text-sm text-[#FFD4B8]">{isUpdateError}</p>
+              )}
             </div>
 
             {/* Profile Picture Section */}
             <div className="mb-8 bg-[#0D1117] border border-[#1E2330] rounded-xl p-8">
               <div className="font-mono text-xs uppercase text-[#454C5E] mb-6">Profile Picture</div>
-              <div className="flex items-center gap-8">
+              <div className="flex items-center gap-20">
                 <div className="w-32 h-32 rounded-full bg-linear-to-br from-[#B8F5D4] to-[#D4BCFF] flex items-center justify-center">
-                  <FaRegUser size={48} className="text-[#06070A]" />
+                  {formData.userProfile ? <div>
+                    <img
+                      src={formData.userProfile}
+                      className="w-30 h-30 rounded-full"
+                      alt='' />
+                  </div> :
+                    <FaRegUser size={48} className="text-[#06070A]" />
+                  }
                 </div>
                 <div className="flex-1">
-                  <p className="font-mono text-sm text-[#F0F2F5] mb-4">
-                    Upload a profile picture to personalize your account
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <button className="px-5 py-2 border border-[#B8F5D4] text-[#B8F5D4] font-mono text-sm rounded-sm hover:bg-[#B8F5D4]/10 transition-colors">
-                      Upload New
+
+                  {!isEditing ?
+                    <div>
+                      <p className="text-sm font-mono text-[#3e4555]">Name:-</p>
+                      <p className="font-mono text-3xl  text-[#F0F2F5] ">
+                        {formData.name}
+                      </p>
+                      <p className="text-xs font-mono text-[#3e4555]">// {formData.username}</p>
+                    </div>
+                    :
+                    <div>
+                      <label className="block font-mono text-xs text-[#454C5E] mb-2">Full Name</label>
+                      <input
+                        type="text"
+                        value={formData.name}
+                        placeholder="panding.."
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        disabled={!isEditing}
+                        className="w-full px-4 py-2 bg-[#06070A] border border-[#1E2330] rounded-sm font-mono text-lg text-[#F0F2F5] focus:outline-none focus:border-[#B8F5D4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      />
+                      
+                      <div className="w-full flex  justify-center my-5">
+                        <div className=" w-full ">
+                          <label className="block font-mono text-xs text-[#454C5E] mb-2">Profile pic</label>
+                          <ProfilePhotoUpload />
+                        </div>
+                      </div>
+
+                    </div>
+                  }
+
+                  {/* <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setIsUpload(!isUpload)}
+                      className="px-5 py-2 border border-[#B8F5D4] text-[#B8F5D4] font-mono text-sm rounded-sm hover:bg-[#B8F5D4]/10 transition-colors">
+                      {isUpload ? "Cancle" : "Upload New"}
                     </button>
-                    <button className="px-5 py-2 border border-[#1E2330] text-[#454C5E] font-mono text-sm rounded-sm hover:border-[#FFD4B8] hover:text-[#FFD4B8] transition-colors">
-                      Remove
-                    </button>
-                  </div>
+                    </div> */}
+
                 </div>
               </div>
+              {/* Update or Update user photo */}
+              {/* {isEditing &&
+                
+
+              } */}
             </div>
 
             {/* Personal Information */}
             <div className="mb-8 bg-[#0D1117] border border-[#1E2330] rounded-xl p-8">
               <div className="font-mono text-xs uppercase text-[#454C5E] mb-6">Personal Information</div>
               <div className="space-y-6">
-                {/* Name */}
-                <div>
-                  <label className="block font-mono text-xs text-[#454C5E] mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    placeholder="panding.."
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    disabled={!isEditing}
-                    className="w-full px-4 py-3 bg-[#06070A] border border-[#1E2330] rounded-sm font-mono text-sm text-[#F0F2F5] focus:outline-none focus:border-[#B8F5D4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  />
-                </div>
+
 
                 {/* Username */}
                 <div>
@@ -205,15 +287,15 @@ export default function UserProfile() {
                         {data?.authType == "github" ? `Connected as ${data?.githubUsername}` : 'Not connected'}</div>
                     </div>
                   </div>
-                   <DisconnectGithubPopup
-                        isOpen={showPopup}
-                        username={data?.githubUsername}       // optional
-                        onConfirm={() => {
-                          // call your disconnect API here
-                          setShowPopup(false)
-                        }}
-                        onCancel={() => setShowPopup(false)}
-                      />
+                  <DisconnectGithubPopup
+                    isOpen={showPopup}
+                    username={data?.githubUsername}       // optional
+                    onConfirm={() => {
+                      // call your disconnect API here
+                      setShowPopup(false)
+                    }}
+                    onCancel={() => setShowPopup(false)}
+                  />
                   <button
                     onClick={() => data?.authType == "github" ? setShowPopup(true) : navigator("/onboarding", { state: { SignUp: "github" } })}
                     className="px-5 py-2 border border-[#FFD4B8] text-[#FFD4B8] font-mono text-sm rounded-sm hover:bg-[#FFD4B8]/10 transition-colors">
@@ -278,7 +360,7 @@ export default function UserProfile() {
           </div> */}
             </div>
 
-            {/* Danger Zone */}
+            {/* Danger Zone
             <div className="mt-12 bg-[#0D1117] border border-[#FFD4B8] rounded-xl p-8">
               <div className="font-mono text-xs uppercase text-[#FFD4B8] mb-6">Danger Zone</div>
               <div className="space-y-4">
@@ -292,13 +374,15 @@ export default function UserProfile() {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
+
           </div>
         </div>
 
 
       </div>
       <Footer />
+      </Skeleton>
     </div>
   )
 }

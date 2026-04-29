@@ -21,7 +21,8 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
         <div className="min-h-screen bg-[#06070A]  px-12 py-10">
             {/* Logo */}
 
-            <div onClick={() => navigator("/")} className="flex items-center gap-2 mb-12 hover:cursor-pointer">
+            <div onClick={() => navigator("/")} 
+            className={`flex items-center gap-2 mb-12 hover:cursor-pointer ${SignUp != "both" ? "hidden" : ""}`}>
                 <span className="font-display text-3xl tracking-wider text-[#F0F2F5]">
                     CODEXA
                 </span>

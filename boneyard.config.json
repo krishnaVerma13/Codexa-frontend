@@ -1,0 +1,13 @@
+{
+  "routes": [
+    "/",
+    "/login",
+    "/signup",
+    "/dashboard",
+    "/editor",
+    "/analysis",
+    "/onboarding",
+    "/dashboard/UserProfile"
+    
+  ]
+}

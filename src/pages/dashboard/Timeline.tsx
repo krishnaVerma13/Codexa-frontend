@@ -1,130 +1,46 @@
 import { useEffect, useState } from "react";
 import { GetTimeline } from "../../services/NwConfig";
-import { DIMS, DIM_LABELS , type Dim } from "../../components/timeline/constants";
-import { KPICard , WeekCard , scoreColor} from "../../components/timeline/Cards";
+import { DIMS, DIM_LABELS, type Dim } from "../../components/timeline/constants";
+import { KPICard, WeekCard, scoreColor } from "../../components/timeline/Cards";
 import { type WeekData } from "../../components/timeline/constants";
 import { TrendChart } from "../../components/timeline/TrendChart";
 import { useQuery } from "@tanstack/react-query";
+import WelcomeBanner from "../../components/dashboard/WelcomBanncer";
+import { useNavigate } from "react-router-dom";
 
+interface APIResponce {
+  success: boolean;
+  message: string;
+  data?: object;
+  error?: any;
+}
 
-const PPdata = [
-  {
-    "bestPractices": 65.6,
-    "efficiency": 79.9,
-    "maintainability": 34,
-    "overallScore": 74.3,
-    "period": "2026-W9",
-    "readability": 90.1,
-    "security": 72.4,
-  },
-  {
-    "bestPractices": 35.6,
-    "efficiency": 79.9,
-    "maintainability": 74,
-    "overallScore": 74.3,
-    "period": "2026-W10",
-    "readability": 80.1,
-    "security": 72.4,
-  },
-  {
-    "bestPractices": 65.6,
-    "efficiency": 29.9,
-    "maintainability": 74,
-    "overallScore": 44.3,
-    "period": "2026-W4",
-    "readability": 80.1,
-    "security": 72.4,
-  },
-  {
-    "bestPractices": 65.6,
-    "efficiency": 79.9,
-    "maintainability": 70,
-    "overallScore": 43,
-    "period": "2026-W4",
-    "readability": 80.1,
-    "security": 34,
-  },
-  {
-    "bestPractices": 65.6,
-    "efficiency": 79.9,
-    "maintainability": 74,
-    "overallScore": 74.3,
-    "period": "2026-04",
-    "readability": 80.1,
-    "security": 72.4,
-  },
-  {
-    "bestPractices": 65.6,
-    "efficiency": 55,
-    "maintainability": 74,
-    "overallScore": 74.3,
-    "period": "2026-04",
-    "readability": 88,
-    "security": 72.4,
-  },
-  {
-    "bestPractices": 65.6,
-    "efficiency": 79.9,
-    "maintainability": 74,
-    "overallScore": 74.3,
-    "period": "2026-04",
-    "readability": 80.1,
-    "security": 72.4,
-  },
-]
-
-type TimelineFetchIn = "week" | "month";
+type TimelineFetchIn = "week" | "month" | "day";
 
 export default function Timeline() {
-
-  const [timelineDueration , setTimelineDuration] = useState<TimelineFetchIn>("week")
-  
-  const {data : APiData , isLoading , error : err} = useQuery({
-    queryKey : ['Timeline'],
-    queryFn : ()=> GetTimeline(timelineDueration),
-    refetchOnWindowFocus : false,
-    refetchOnMount : false,
-    staleTime: 5 * 60 * 1000 // 5 minute
-  })
-  // const response = APiData;
-  const [allData, setAllData] = useState<WeekData[]>([]);
-  const [rangeN, setRangeN] = useState(8);
+  const navigator = useNavigate()
+  const [groupBy, setGroupBy] = useState<TimelineFetchIn>("day");
   const [hiddenDims, setHiddenDims] = useState<Set<Dim>>(new Set());
-  const [error, setError] = useState<string | null>(err?.message || null);
 
- 
+  const { data: APiData, isLoading: loading, error: err } = useQuery<APIResponce>({
+    queryKey: ["Timeline", groupBy],        // ← groupBy in key = refetch on change
+    queryFn: () => GetTimeline(groupBy),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000,
+  });
 
-  useEffect(() => {
-    // console.log("loading :",isLoading);
-    // console.log("error :",err);
-    // console.log("data :",APiData);
+  // ── Derive allData directly from query (no shadow useState needed) ──
+  const allData: WeekData[] = (() => {
+    if (!APiData?.success || !APiData.data) return [];
+    return [...(APiData.data as WeekData[])].sort((a, b) =>
+      a.period.localeCompare(b.period)
+    );
+  })();
 
-    if(!isLoading){
-   if (!APiData ) {
-        setError("No response from GetTimeline");
-        return
-      }
-      const payload = "data" in APiData ? APiData.data : APiData;
+  const data = allData; // all periods returned; backend already scopes by groupBy
 
-      if (!payload?.success) {
-        setError(payload?.message ?? "Failed to load timeline");
-        return
-      }
-      // console.log("payload data :", payload.data);
-
-      const sorted = [...(PPdata as WeekData[])].sort((a, b) =>
-        a.period.localeCompare(b.period)
-      );
-      setAllData(sorted);
-    if(err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } 
-  }
-  }, [APiData]);
-
-  // ── Derived ──
-  const data = allData.slice(-rangeN);
-
+  // ── Derived stats ──
   const latest = data[data.length - 1];
   const prev4 = data.length >= 5 ? data[data.length - 5] : data[0];
 
@@ -132,9 +48,11 @@ export default function Timeline() {
     (m, d) => (d.overallScore > m.overallScore ? d : m),
     data[0] ?? ({ overallScore: 0 } as WeekData)
   );
-  const trend = latest && prev4
-    ? +(latest.overallScore - prev4.overallScore).toFixed(1)
-    : 0;
+
+  const trend =
+    latest && prev4
+      ? +(latest.overallScore - prev4.overallScore).toFixed(1)
+      : 0;
 
   const avgByDim = DIMS.map((d) => ({
     d,
@@ -157,14 +75,22 @@ export default function Timeline() {
     color: "#e8eaed",
     fontFamily: "'Syne', sans-serif",
     padding: "1.75rem 1.5rem 4rem",
-    maxWidth: 900,
+    minWidth: "100vh",
     margin: "0 auto",
   };
 
-  // ── Render ──
-  if (isLoading) {
+  // ── Render guards ──
+  if (loading) {
     return (
-      <div style={{ ...pageStyle, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+      <div
+        style={{
+          ...pageStyle,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+        }}
+      >
         <div
           style={{
             width: 16,
@@ -176,16 +102,30 @@ export default function Timeline() {
           }}
         />
         <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#3e4555" }}>
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 12,
+            color: "#3e4555",
+          }}
+        >
           fetching timeline...
         </span>
       </div>
     );
   }
 
-  if (error != null) {
+  if (err) {
+    const msg = err instanceof Error ? err.message : String(err);
     return (
-      <div style={{ ...pageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div
+        style={{
+          ...pageStyle,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <div
           style={{
             fontFamily: "'JetBrains Mono', monospace",
@@ -197,63 +137,23 @@ export default function Timeline() {
             padding: "12px 16px",
           }}
         >
-          // error: {error}
+            {msg}
         </div>
       </div>
     );
   }
 
-  if (!data.length) {
-    return (
-      <div style={{ ...pageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 12,
-            color: "#3e4555",
-            textAlign: "center",
-          }}
-        >
-          <div style={{ fontSize: 28, marginBottom: 12 }}>⌀</div>
-          // no analyses yet — submit code to build your timeline
-        </div>
-      </div>
-    );
-  }
+ 
+
+
+  if(loading == false && data.length == 0 ){
+          return<div
+          className="absolute top-70 left-130 flex justify-center items-center"
+          > <WelcomeBanner onStart={() => navigator("/codeEditor")} /></div>    
+      }
 
   return (
-    <div className="mx-15 mt-10 mb-20"    >
-
-      {/* Header */}
-      {/* <div
-        style={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          marginBottom: "1.75rem",
-          paddingBottom: "1.25rem",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <div>
-          <h1 style={{ fontSize: 22, fontWeight: 600, letterSpacing: "-0.3px", color: "#e8eaed" }}>
-            Timeline
-          </h1>
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11,
-              color: "#3e4555",
-              marginTop: 3,
-            }}
-          >
-            // weekly_quality_report · {allData.length} weeks tracked
-          </div>
-        </div>
-
-        
-      </div> */}
-
+    <div className="mx-15 mt-10 mb-20">
       {/* KPIs */}
       <div
         style={{
@@ -273,7 +173,7 @@ export default function Timeline() {
           label="Peak score"
           value={peak?.overallScore.toFixed(1) ?? "—"}
           valueColor={peak ? scoreColor(peak.overallScore) : undefined}
-          sub={peak?.period ?? "best week"}
+          sub={peak?.period ?? "best period"}
         />
         <KPICard
           label="Trend"
@@ -290,24 +190,20 @@ export default function Timeline() {
         />
       </div>
 
-      {/* Range toggle */}
+      {/* Group-by toggle */}
       <div style={{ display: "flex", gap: 5, justifyContent: "end", marginBottom: 10 }}>
-        {[
-          { n: 8, label: "8w" },
-          { n: 16, label: "16w" },
-          { n: 9999, label: "All" },
-        ].map(({ n, label }) => (
+        {(["day", "week", "month"] as TimelineFetchIn[]).map((label) => (
           <button
-            key={n}
-            onClick={() => setRangeN(n)}
+            key={label}
+            onClick={() => setGroupBy(label)}           // ← single setter, query auto-refetches
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: 15,
               padding: "4px 10px",
               borderRadius: 20,
-              border: `1px solid ${rangeN === n ? "#00d9c0" : "rgba(255,255,255,0.11)"}`,
-              background: rangeN === n ? "rgba(0,217,192,0.1)" : "transparent",
-              color: rangeN === n ? "#00d9c0" : "#7a8394",
+              border: `1px solid ${groupBy === label ? "#00d9c0" : "rgba(255,255,255,0.11)"}`,
+              background: groupBy === label ? "rgba(0,217,192,0.1)" : "transparent",
+              color: groupBy === label ? "#00d9c0" : "#7a8394",
               cursor: "pointer",
               transition: "all 0.15s",
             }}
@@ -320,14 +216,10 @@ export default function Timeline() {
       {/* Trend chart */}
       <TrendChart data={data} hiddenDims={hiddenDims} onToggleDim={toggleDim} />
 
-      {/* Week list */}
+      {/* Period list */}
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {[...data].reverse().map((week, ii) => (
-          <div
-            key={ii}
-            className="tl-row"
-            style={{ animationDelay: `${ii * 0.04}s` }}
-          >
+          <div key={ii} className="tl-row" style={{ animationDelay: `${ii * 0.04}s` }}>
             <WeekCard week={week} index={ii} />
           </div>
         ))}

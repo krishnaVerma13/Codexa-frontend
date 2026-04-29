@@ -48,6 +48,8 @@ export default function GithubRepo() {
         refetchOnWindowFocus: false,
     })
 
+    console.log("repo responce :", repos);
+
 
     // This use Effect check github is connected or not through the user data
     useEffect(() => {
@@ -188,7 +190,7 @@ export default function GithubRepo() {
                 // console.log("code language : ", codeLanguage);
                 // console.log("code : ", code);
             }
-            
+
             return;
         }
 
@@ -211,6 +213,7 @@ export default function GithubRepo() {
     }, [])
 
 
+
     return (<>
         {/* <div className=" flex items-center text-2xl p-2 space-x-2 relative bottom-6">
             <MdArrowBackIosNew
@@ -220,8 +223,9 @@ export default function GithubRepo() {
             <MdArrowBackIosNew className="rotate-180"/>
         </div> */}
         {/* Time line for github repo component */}
-        <div className="flex space-x-2  ">
-            <div className="w-full text-sm bg-[#0D1117] border border-[#1E2330] rounded-lg h-10 flex items-center  mb-4 overflow-x-scroll scrollbar-hide text-nowrap ">
+        <div className={`flex space-x-2  ${!repos ?  "hidden" : ""} `}>
+            <div className={`w-full text-sm bg-[#0D1117] border border-[#1E2330] rounded-lg h-10 flex items-center  mb-4 overflow-x-scroll scrollbar-hide text-nowrap 
+               `}>
                 <PiFolderSimpleMinus className="m-2" />
                 <p
                     onClick={() => handelTimeLine(false, null)}
@@ -254,7 +258,7 @@ export default function GithubRepo() {
         }
 
 
-        <div className="mb-8">
+        <div className={`mb-8   ${!repos ?  "hidden" : ""} `}>
             {/* Search Input field */}
             <div className="relative">
                 <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[#454C5E]" size={20} />
@@ -275,29 +279,45 @@ export default function GithubRepo() {
                 <div className="space-y-2">
 
                     {/* Github Repositories */}
-                    {repos?.map((repo: GithubRepoResponce) => (
-                        <button
-                            onClick={() => { handelRepoCliick(repo?.full_name, null), handelTimeLine(true, { name: repo.name, path: repo.full_name, fileType: "dir" }) }}
-                            key={repo.name}
-                            className="w-full h-18 px-6 bg-[#0D1117] border border-[#1E2330] rounded-lg flex items-center justify-between hover:border-[#B8F5D4]/30 transition-colors group hover:cursor-pointer"
+
+                    {repos?.length == 0 ? <div>
+                        <div
+                            style={{
+                                fontFamily: "'JetBrains Mono', monospace",
+                                fontSize: 22,
+                                color: "#3e4555",
+                                textAlign: "center",
+                            }}
                         >
-                            <div className="flex items-center gap-4">
-                                <LuGithub className="text-[#454C5E] group-hover:text-[#B8F5D4] transition-colors" size={24} />
-                                <div className="text-left">
-                                    <div className="font-mono text-sm text-[#F0F2F5] mb-1">{repo.name}</div>
-                                    <div className="flex items-center gap-2 font-mono text-xs text-[#454C5E]">
-                                        <span>{repo.language}</span>
-                                        <span>·</span>
-                                        <span>{formatDate(repo.updated_at)}</span>
+                            <div style={{ fontSize: 48, marginBottom: 12 }}>⌀</div>
+                            Repos not found
+                        </div>
+                    </div> : <div>
+
+                        {repos?.map((repo: GithubRepoResponce) => (
+                            <button
+                                onClick={() => { handelRepoCliick(repo?.full_name, null), handelTimeLine(true, { name: repo.name, path: repo.full_name, fileType: "dir" }) }}
+                                key={repo.name}
+                                className="w-full h-18 px-6 bg-[#0D1117] border border-[#1E2330] rounded-lg flex items-center justify-between hover:border-[#B8F5D4]/30 transition-colors group hover:cursor-pointer"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <LuGithub className="text-[#454C5E] group-hover:text-[#B8F5D4] transition-colors" size={24} />
+                                    <div className="text-left">
+                                        <div className="font-mono text-sm text-[#F0F2F5] mb-1">{repo.name}</div>
+                                        <div className="flex items-center gap-2 font-mono text-xs text-[#454C5E]">
+                                            <span>{repo.language}</span>
+                                            <span>·</span>
+                                            <span>{formatDate(repo.updated_at)}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="flex items-center gap-2 font-mono text-xs text-[#454C5E]">
-                                <span>⭐</span>
-                                <span>{repo.stargazers_count}</span>
-                            </div>
-                        </button>
-                    ))}
+                                <div className="flex items-center gap-2 font-mono text-xs text-[#454C5E]">
+                                    <span>⭐</span>
+                                    <span>{repo.stargazers_count}</span>
+                                </div>
+                            </button>
+                        ))}
+                    </div>}
                 </div>
             }
         </div>

@@ -5,7 +5,7 @@ import Login from "./pages/authPages/Login"
 import VerifyOTP from "./pages/authPages/VerifyOTP"
 import OnBording from "./pages/OnBording"
 
-import UserDashboard from "./pages/dashboard/UserDashboard"
+import UserDashboard from "./pages/UserDashboard"
 import UserProfile from "./pages/dashboard/UserProfile"
 import AuthCallback from "./pages/authPages/AuthCallback"
 import Logout from "./components/function/Logout"
@@ -13,6 +13,7 @@ import CodeEditor from "./pages/dashboard/CodeEditor"
 import MyRepo from "./pages/dashboard/MyRepo"
 import ForgetPassword from "./pages/authPages/ForgetPassword"
 import Timeline from "./pages/dashboard/Timeline"
+import Recommendations from "./pages/dashboard/Recommendation"
 
 
 
@@ -39,6 +40,7 @@ function App() {
       <Route path="/github-Repo" element={<MyRepo/>} /> 
       <Route path="/forgetPassword" element={<ForgetPassword/>} /> 
       <Route path="/timeline" element={<Timeline/>} /> 
+      <Route path="/recommendations" element={<Recommendations/>} /> 
       
       
       

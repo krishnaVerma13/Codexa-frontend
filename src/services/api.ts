@@ -6,6 +6,9 @@ export const VerifyOTPUrl = "/user/verifyOtp";
 export const VerifyEmail = "/user/verifyEmail";
 export const ResendOTPUrl = "/user/resendOtp";
 export const GetUserData = "/user/getData"
+export const UserDataUpdate = "/user/update"
+export const forgotPassword = "/user/forgotPassword"
+export const UpdatePhoto = "/user/profilePhoto/update"
 
 //Ai api 
 export const AnalysisEditorUrl = "/analysis/editor"
@@ -15,6 +18,7 @@ export const AnalysisHistoryIDURl = "/analysis/"
 export const TimelineURL = "/analysis/timeline"
 export const MyPatterenURL = "/patterns/myPattren"
 export const RecommendationURL = "/recommendations/me"
+
 
 
 
