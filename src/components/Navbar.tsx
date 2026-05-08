@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUser } from "../routes/queryHooks/User.Query";
 import { useHashNav } from "./function/Usehashnav";
 
@@ -8,7 +8,7 @@ interface NavbarProps {
 
 
 export default function Navbar({ variant = 'landing' }: NavbarProps) {
-  const navigator = useNavigate()
+  
   const go = useHashNav()
   const { data } = useUser();
   return (
