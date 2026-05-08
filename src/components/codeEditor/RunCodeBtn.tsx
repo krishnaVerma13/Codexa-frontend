@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { HiPlay } from "react-icons/hi2";
 
-import { selectCurrentCode, selectLanguage, setRunning , setOutput , selectError , setExecutionResult, selectExecutionResult, setError } from "../../slices/editorSlice";
+import { selectCurrentCode, selectLanguage, setRunning, setOutput, setExecutionResult, setError } from "../../slices/editorSlice";
 import { useAppSelector, useAppDispatch } from "../../store/Store";
 import { RunCodeApi } from "../../services/CodeRunApi";
 import { LANGUAGE_CONFIG } from "../constants/Monaco.constants";

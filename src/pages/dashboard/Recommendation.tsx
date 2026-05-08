@@ -4,7 +4,6 @@ import type { RecommendationsData , Recommendation, PatternData } from "../../co
 import {  RESOURCE_CONFIG } from "../../components/recommendation/constant";
 import { PatternPill  , RecommendationCard , EmptyState} from "../../components/recommendation/Cards";
 import { useQuery } from "@tanstack/react-query";
-import { PiWarningDiamondBold } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import WelcomeBanner from "../../components/dashboard/WelcomBanncer";
 

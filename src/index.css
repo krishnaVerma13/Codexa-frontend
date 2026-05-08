@@ -36,3 +36,17 @@
     display: none;
   }
 }
+
+/* 2. Tailwind v4 theme tokens */
+@theme {
+  --font-sans: 'Sora', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+ 
+  --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
+ 
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.45; transform: scale(0.75); }
+  }
+}
+ 

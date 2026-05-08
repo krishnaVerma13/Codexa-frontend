@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GetTimeline } from "../../services/NwConfig";
 import { DIMS, DIM_LABELS, type Dim } from "../../components/timeline/constants";
 import { KPICard, WeekCard, scoreColor } from "../../components/timeline/Cards";

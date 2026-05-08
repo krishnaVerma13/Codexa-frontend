@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type JSX } from "react";
-import type { Toast, ToastType } from "./Usetoast";
+import type { Toast, ToastType } from "./useToast";
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 

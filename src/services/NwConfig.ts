@@ -420,7 +420,7 @@ export const GetRecommendation = async ()=> {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error("Verify OTP API error:", error.response?.data || error.message);
-            return { success: false, message: error.response?.data?.message || "My Pattern not get" };
+            return { success: false, message: error.response?.data?.message || "My Recommendation not get" };
         }
         return { success: false, message: "An unexpected error occurred" };
     }
@@ -445,7 +445,7 @@ export const forgotPasswordAPI = async (data : object)=> {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error("Verify OTP API error:", error.response?.data || error.message);
-            return { success: false, message: error.response?.data?.message || "My Pattern not get" };
+            return { success: false, message: error.response?.data?.message || "My Password not get" };
         }
         return { success: false, message: "An unexpected error occurred" };
     }
@@ -473,7 +473,7 @@ export const UpdateUserDataAPI = async (data : object)=> {
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error("Verify OTP API error:", error.response?.data || error.message);
-            return { success: false, message: error.response?.data?.message || "My Pattern not get" };
+            return { success: false, message: error.response?.data?.message || "Updated data not get" };
         }
         return { success: false, message: "An unexpected error occurred" };
     }

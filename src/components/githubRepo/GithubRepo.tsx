@@ -36,7 +36,7 @@ export default function GithubRepo() {
     const [isRepoOpen, setIsRepoOpen] = useState(false)
     const [selectedRepoContent, setSelectedRepoContent] = useState<GithubFolderItem[] | null>(null)
     const setCodeEditorState = useSetCodeEditorState()
-    const { success, error, warning, info } = useToastContext()
+    const { error, warning } = useToastContext()
 
 
     // Fetching all github repos of the user 

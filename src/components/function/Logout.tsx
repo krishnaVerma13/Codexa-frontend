@@ -14,6 +14,16 @@ export default function Logout (){
         const token = localStorage.getItem('token')
         if (token) {
         localStorage.removeItem('token')
+        localStorage.removeItem("editor-code-go")
+        localStorage.removeItem("editor-code-java")
+        localStorage.removeItem("editor-code-javascript")
+        localStorage.removeItem("editor-code-python")
+        localStorage.removeItem("editor-code-ruby")
+        localStorage.removeItem("editor-code-swift")
+        localStorage.removeItem("editor-code-text")
+        localStorage.removeItem("editor-code-typescript")
+        localStorage.removeItem("timeline")
+ 
         }
         toast("Logout Successfully " , {
                 duration : 2000,

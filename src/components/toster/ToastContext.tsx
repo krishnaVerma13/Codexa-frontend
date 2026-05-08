@@ -1,7 +1,7 @@
 import { createContext, useContext, type ReactNode } from "react";
-import { useToast } from "./Usetoast";
+import { useToast } from "./useToast";
 import { ToastContainer } from "./Toastcontainer";
-import type { Toast, ToastType } from "./Usetoast";
+import type { Toast, ToastType } from "./useToast";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

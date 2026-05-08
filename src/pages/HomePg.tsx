@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FiPlay } from "react-icons/fi";
 import { ScorePill } from "../components/ScorePill";
 import { IoMdTrendingUp } from "react-icons/io";
@@ -9,10 +9,12 @@ import ProcessStep from "../components/pageComponents/ProcessStepProps";
 import { FaArrowRight } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import { useUser } from "../routes/queryHooks/User.Query";
 
 const HomePg = () => 
-{
-    
+  {
+    const navigator = useNavigate()
+    const {data} = useUser()
     return (
         <div>
           <Navbar/>
@@ -47,12 +49,14 @@ const HomePg = () =>
             
             <div className="flex gap-4">
               <Link 
-                to="/onboarding"
+                to={data ? "/dashboard" : "/onboarding"}
                 className="px-8 py-4 bg-[#B8F5D4] text-[#06070A] font-mono text-sm rounded-sm hover:bg-[#A5E5C1] transition-colors"
               >
                 Analyze My Code
               </Link>
-              <button className="px-8 py-4 border border-[#1E2330] text-[#F0F2F5] font-mono text-sm rounded-sm hover:border-[#B8F5D4] transition-colors flex items-center gap-2">
+              <button
+              onClick={ ()=> {data ? navigator("/dashboard") : navigator("/onboarding")}}
+              className="px-8 py-4 border border-[#1E2330] text-[#F0F2F5] font-mono text-sm rounded-sm hover:border-[#B8F5D4] transition-colors flex items-center gap-2">
                 <FiPlay />
                 Watch Demo
               </button>
@@ -99,16 +103,16 @@ const HomePg = () =>
               
               {/* Floating Pills */}
               <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                <ScorePill label="Security" value={91} color="lavender" showBar={false} />
+                <ScorePill label="Security" value={91} color="lavender" showBar={false} text=""/>
               </div>
               <div className="absolute top-1/2 -right-8 -translate-y-1/2">
-                <ScorePill label="Clean Code" value={84} color="mint" showBar={false} />
+                <ScorePill label="Clean Code" value={84} color="mint" showBar={false} text="" />
               </div>
               <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
-                <ScorePill label="Performance" value={67} color="peach" showBar={false} />
+                <ScorePill label="Performance" value={67} color="peach" showBar={false} text=""/>
               </div>
               <div className="absolute top-1/2 -left-8 -translate-y-1/2">
-                <ScorePill label="Testing" value={55} color="yellow" showBar={false} />
+                <ScorePill label="Testing" value={55} color="yellow" showBar={false} text=""/>
               </div>
             </div>
           </div>

@@ -14,6 +14,7 @@ import MyRepo from "./pages/dashboard/MyRepo"
 import ForgetPassword from "./pages/authPages/ForgetPassword"
 import Timeline from "./pages/dashboard/Timeline"
 import Recommendations from "./pages/dashboard/Recommendation"
+import AboutPg from "./pages/AboutPg"
 
 
 
@@ -27,6 +28,7 @@ function App() {
     <><Routes>
      
       <Route path="/" element={<HomePg/>} /> 
+      <Route path="/about" element={<AboutPg/>} /> 
       <Route path="/userProfile" element={<UserProfile/>} />
      
       <Route path="/signup" element={<Signup/>} /> 

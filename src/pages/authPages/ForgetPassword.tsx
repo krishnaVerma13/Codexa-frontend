@@ -24,7 +24,7 @@ export default function ForgetPassword() {
     const isOpen = fildState.state?.show == "password" ? true : false;
     // console.log("email :", fildState?.state?.userEmail);
 
-    const [openPassword, setOpenPassword] = useState(isOpen)
+    const [openPassword] = useState(isOpen)
 
     const [errors, setErrors] = useState<LoginError>()
 

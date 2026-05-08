@@ -39,12 +39,15 @@ export interface User {
     githubUsername?: string;
     githubAccessToken?: string;
     isSubscribed: boolean;
-    trialUsed: Number;
-    trialLimit: Number;
+    tokenUsed: number;
+    tokenLimit: number;
     authType: string;
     userProfile?: string;
     createdAt: Date;
     updatedAt: Date;
+    resetLimiteAt?: Date;
+    isLimitRiched?:boolean
+
 }
 
 export interface GithubRepoResponce {

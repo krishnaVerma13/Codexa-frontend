@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import {  Link, useNavigate } from 'react-router';
 import { ScorePill } from '../../components/ScorePill';
 
 import { Resizable } from 're-resizable'
@@ -14,10 +14,12 @@ import { MdArrowBackIosNew } from 'react-icons/md';
 import { useAppSelector } from '../../store/Store';
 import { selectCurrentCode, selectIsRunning, selectLanguage } from '../../slices/editorSlice';
 import { GetAnalysisEditorCode } from '../../services/NwConfig';
-import { useToast } from '../../components/toster/Usetoast';
-import type { IAnalysisDocument, IAnalysisScores } from '../../services/service.Types';
+import { useToast } from '../../components/toster/useToast';
+import type { IAnalysisDocument } from '../../services/service.Types';
 import { useSelector } from 'react-redux';
 import RunningCodeSkeleton from '../../components/codeEditor/RunningCodeSkeleton';
+import AnalysisLimitPopup from '../../components/codeEditor/AnalysisLimitPopup';
+import type { User } from '../../interface/auth.type';
 
 export default function CodeEditor() {
 
@@ -30,10 +32,11 @@ export default function CodeEditor() {
   const setActiveTab = useSetCodeEditorState()
   const { error } = useToast()
   const colors = ["lavender", "sky", "yellow", "peach", "mint"] as const;
+  const [showLimitPopup, setShowLimitPopup] = useState(false);
 
- 
   const [isLodingAnalysis, setLodingAnalysis] = useState(false)
-  const [analysisResp , setAnalysisResp] = useState<IAnalysisDocument>()
+  const [analysisResp, setAnalysisResp] = useState<IAnalysisDocument>()
+  const [userState, setUserState] = useState<User>();
   const currentCode = useAppSelector(selectCurrentCode)
   const language = useAppSelector(selectLanguage)
   const isRunning = useSelector(selectIsRunning)
@@ -51,10 +54,17 @@ export default function CodeEditor() {
       code: currentCode,
       language: language
     })
-    console.log("responce :", responce);
+    // console.log("responce :", responce);
     if (responce.success == true) {
+
+      if (responce.data?.isLimitRichied == true) {
+        setUserState(responce.data)
+        setShowLimitPopup(true)
+        setAnalyzed(false)
+      }
+
       setAnalysisResp(responce.data)
-      console.log("responce :", responce.data);
+      // console.log("responce :", responce.data);
     }
 
     setLodingAnalysis(false)
@@ -105,6 +115,16 @@ export default function CodeEditor() {
       {/* Tabs */}
       {/* Main Content */}
       <div className="flex-1 flex">
+        <AnalysisLimitPopup
+          isOpen={showLimitPopup}
+          onClose={() => setShowLimitPopup(false)}
+          user={{
+            isLimitRiched: userState?.isLimitRiched!,
+            tokenUsed: userState?.tokenUsed!,       // 31209
+            tokenLimit: userState?.tokenLimit!,     // 10000
+            resetLimiteAt: userState?.resetLimiteAt!, // "1970-01-01T08:10:29.994Z"
+          }}
+        />
         {activeTab === 'write' ? (
           <>
             {/* Editor Area */}
@@ -198,7 +218,7 @@ export default function CodeEditor() {
                             Suggestions
                           </div>
                           <div className="space-y-3">
-                            {analysisResp?.suggestions.map((text, i) => (
+                            {analysisResp?.suggestions?.map((text, i) => (
                               <div
                                 key={i}
                                 className="p-4 bg-[#06070A] border border-[#1E2330] rounded"
