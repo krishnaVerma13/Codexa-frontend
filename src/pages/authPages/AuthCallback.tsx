@@ -7,7 +7,7 @@ export default function AuthCallback() {
 
     useEffect(() => {
         const param = new URLSearchParams(window.location.search)
-        // console.log("token param :", param);
+        console.log("token param :", param);
 
         const token = param.get('token')
         // console.log("token :", token);/
