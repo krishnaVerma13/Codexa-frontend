@@ -3,6 +3,7 @@ import { BiLogIn } from "react-icons/bi";
 import { MdOutlineAssignmentInd } from "react-icons/md";
 import { MdOutlineMail } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../services/api";
 
 interface onBordingProps {
     SignUp: "both" | "github" | "email"
@@ -55,7 +56,7 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
                             </p>
 
                             <button
-                                onClick={() => window.location.href = `http://localhost:5656/api/user/github`}
+                                onClick={() => window.location.href = `${API_BASE_URL}/user/github`}
                                 className="w-full px-8 py-4 bg-[#B8F5D4] text-[#06070A] font-mono text-sm rounded-sm 
                             hover:bg-[#A5E5C1] transition-colors flex items-center justify-center gap-3 mb-6 hoveer:cursor-pointer"
                             >
