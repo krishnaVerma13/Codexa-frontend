@@ -5,9 +5,12 @@ import { MdOutlineMail } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../services/api";
 
+// 00000
+
 interface onBordingProps {
     SignUp: "both" | "github" | "email"
 }
+
 
 export default function OnBording({ SignUp = "both" }: onBordingProps) {
 
