@@ -6,7 +6,8 @@ import { FaArrowRight } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 
-type Billing = "monthly" | "annual";
+// kddk
+type Billing = "monthly" | "annual";    
 
 interface Plan {
   id: string;

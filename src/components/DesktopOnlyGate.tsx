@@ -1,6 +1,6 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { Monitor } from "lucide-react";
-
+// ksk
 const BREAKPOINT = 1024; // px — tweak to your cutoff
 
 interface DesktopOnlyGateProps {

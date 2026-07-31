@@ -52,6 +52,8 @@ export default function Navbar({ variant = 'landing' }: NavbarProps) {
               <Link to="/about" className="hover:text-[#B8F5D4] transition-colors no-underline text-[#F0F2F5]">
                 About
               </Link>
+
+              {/* k */}
               <Link to="/pricing" className="hover:text-[#B8F5D4] transition-colors no-underline text-[#F0F2F5]">
                 Pricing 
               </Link>
