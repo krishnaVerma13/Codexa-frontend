@@ -53,6 +53,9 @@ export default function GithubRepo() {
 
     // This use Effect check github is connected or not through the user data
     useEffect(() => {
+        if(!localStorage.getItem("token")){
+      navigator("/onboarding")
+    }
         if (data?.githubUsername) {
             setIsGithubConnected(true)
         }

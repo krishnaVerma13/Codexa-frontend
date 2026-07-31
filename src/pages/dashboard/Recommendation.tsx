@@ -58,6 +58,9 @@ const  recResponse = data?.recom;
 
 
   useEffect(() => {
+    if(!localStorage.getItem("token")){
+      navigator("/onboarding")
+    }
    if(!isLoading){
     if (!recResponse || recResponse.success === false) {
         setError(recResponse.message)

@@ -19,22 +19,22 @@ const HomePg = () =>
         <div>
           <Navbar/>
             {/* Hero Section */}
-      <section className="min-h-screen pt-24 flex items-center px-12">
-        <div className="max-w-350 mx-auto w-full grid grid-cols-2 gap-12 relative">
+      <section className="min-h-screen pt-24 flex items-center px-4 md:px-12">
+        <div className="max-w-350 mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 relative">
           {/* Vertical Text */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16">
+          <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16">
             <div className="transform -rotate-90 origin-center whitespace-nowrap font-mono text-xs text-[#454C5E]">
               Developer Intelligence Platform · v1.0
             </div>
           </div>
           
           {/* Left Panel */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center order-2 md:order-1">
             <div className="font-mono text-xs text-[#B8F5D4] mb-6 tracking-wider">
               AI-POWERED · SKILL INTELLIGENCE
             </div>
             
-            <h1 className="font-display text-[10vw] leading-none mb-8 text-[#F0F2F5]">
+            <h1 className="font-display text-[14vw] md:text-[10vw] leading-none mb-8 text-[#F0F2F5]">
               YOUR /<br />
               <span className="text-transparent" style={{ WebkitTextStroke: '2px #F0F2F5' }}>
                 CODE
@@ -47,7 +47,7 @@ const HomePg = () =>
               Know exactly where you excel and where to level up.
             </p>
             
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <Link 
                 to={data ? "/dashboard" : "/onboarding"}
                 className="px-8 py-4 bg-[#B8F5D4] text-[#06070A] font-mono text-sm rounded-sm hover:bg-[#A5E5C1] transition-colors"
@@ -64,10 +64,10 @@ const HomePg = () =>
           </div>
           
           {/* Right Panel - Score Ring */}
-          <div className="flex items-center justify-center relative">
-            <div className="relative w-100 h-100">
+          <div className="flex items-center justify-center relative order-1 md:order-2">
+            <div className="relative w-64 h-64 md:w-100 md:h-100">
               {/* Main Circle */}
-              <svg className="w-full h-full transform -rotate-90">
+              <svg viewBox="0 0 400 400" className="w-full h-full transform -rotate-90">
                 <circle
                   cx="200"
                   cy="200"
@@ -97,28 +97,28 @@ const HomePg = () =>
               
               {/* Center Score */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="font-display text-7xl text-[#B8F5D4]">79</div>
+                <div className="font-display text-3xl md:text-7xl text-[#B8F5D4]">79</div>
                 <div className="font-mono text-xs text-[#454C5E] uppercase">Overall Score</div>
               </div>
               
               {/* Floating Pills */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <div className="absolute -top-2 md:-top-4 left-1/2 -translate-x-1/2 scale-75 md:scale-100">
                 <ScorePill label="Security" value={91} color="lavender" showBar={false} text=""/>
               </div>
-              <div className="absolute top-1/2 -right-8 -translate-y-1/2">
+              <div className="absolute top-1/2 -right-4 md:-right-8 -translate-y-1/2 scale-75 md:scale-100">
                 <ScorePill label="Clean Code" value={84} color="mint" showBar={false} text="" />
               </div>
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
+              <div className="absolute -bottom-2 md:-bottom-4 left-1/2 -translate-x-1/2 scale-75 md:scale-100">
                 <ScorePill label="Performance" value={67} color="peach" showBar={false} text=""/>
               </div>
-              <div className="absolute top-1/2 -left-8 -translate-y-1/2">
+              <div className="absolute top-1/2 -left-4 md:-left-8 -translate-y-1/2 scale-75 md:scale-100">
                 <ScorePill label="Testing" value={55} color="yellow" showBar={false} text=""/>
               </div>
             </div>
           </div>
           
           {/* Diagonal Divider */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-[#B8F5D4]/30 to-transparent transform rotate-6" />
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-[#B8F5D4]/30 to-transparent transform rotate-6" />
         </div>
         
         
@@ -126,7 +126,7 @@ const HomePg = () =>
 
       {/* Marquee Section */}
       <section className="border-y mt-10 border-[#1E2330] py-6 overflow-hidden bg-[#0D1117]">
-        <div className="animate-marquee whitespace-nowrap font-display text-2xl text-[#454C5E]">
+        <div className="animate-marquee whitespace-nowrap font-display text-lg md:text-2xl text-[#454C5E]">
           <span className="inline-flex items-center gap-6 px-6">
             Clean Code <span className="w-2 h-2 rounded-full bg-[#B8F5D4]" />
             Security Analysis <span className="w-2 h-2 rounded-full bg-[#D4BCFF]" />
@@ -153,11 +153,11 @@ const HomePg = () =>
       </section>
 
        {/* Features Section */}
-      <section id="features" className="py-40 px-12">
+      <section id="features" className="py-20 md:py-40 px-4 md:px-12">
         <div className="max-w-350 mx-auto">
-          <div className="grid grid-cols-2 gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mb-10 md:mb-16">
             <div>
-              <h2 className="font-display text-6xl text-[#F0F2F5] leading-tight">
+              <h2 className="font-display text-4xl md:text-6xl text-[#F0F2F5] leading-tight">
                 Intelligence /<br />
                 <span className="font-accent italic text-[#D4BCFF]">beyond syntax</span>
               </h2>
@@ -171,10 +171,10 @@ const HomePg = () =>
           </div>
           
           {/* Feature Grid */}
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {/* Big Card */}
-            <div className="col-span-2 row-span-2 bg-[#0D1117] border border-[#1E2330] rounded-xl p-12 hover:border-[#B8F5D4]/30 transition-all relative group">
-              <div className="absolute top-8 right-8 font-display text-[120px] text-[#1E2330] leading-none">
+            <div className="md:col-span-2 md:row-span-2 bg-[#0D1117] border border-[#1E2330] rounded-xl p-6 md:p-12 hover:border-[#B8F5D4]/30 transition-all relative group">
+              <div className="absolute top-4 right-4 md:top-8 md:right-8 font-display text-6xl md:text-[120px] text-[#1E2330] leading-none">
                 01
               </div>
               <div className="relative z-10">
@@ -249,9 +249,9 @@ const HomePg = () =>
       </section>
 
        {/* Statement Section */}
-      <section className="py-40 px-12 relative">
+      <section className="py-20 md:py-40 px-4 md:px-12 relative">
         <div className="max-w-350 mx-auto">
-          <h2 className="font-display text-[8vw] leading-none text-[#F0F2F5]">
+          <h2 className="font-display text-[11vw] md:text-[8vw] leading-none text-[#F0F2F5]">
             YOUR COMMITS /<br />
             <span className="text-transparent" style={{ WebkitTextStroke: '2px #F0F2F5' }}>
               TELL THE TRUTH
@@ -259,8 +259,8 @@ const HomePg = () =>
             ABOUT YOUR SKILLS.
           </h2>
           
-          <div className="absolute bottom-40 right-12">
-            <p className="font-mono text-xs text-[#454C5E] max-w-xs text-right font-light">
+          <div className="mt-8 md:mt-0 md:absolute md:bottom-40 md:right-12">
+            <p className="font-mono text-xs text-[#454C5E] max-w-xs text-left md:text-right font-light">
               Most developers don't know how they're perceived by the code they ship.
             </p>
           </div>
@@ -268,11 +268,11 @@ const HomePg = () =>
       </section>
 
        {/* How It Works Section */}
-      <section id="process" className="py-40 px-12 bg-[#0D1117]">
+      <section id="process" className="py-20 md:py-40 px-4 md:px-12 bg-[#0D1117]">
         <div className="max-w-350 mx-auto">
-          <div className="grid grid-cols-2 gap-12 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mb-10 md:mb-20">
             <div>
-              <h2 className="font-display text-6xl text-[#F0F2F5]">
+              <h2 className="font-display text-4xl md:text-6xl text-[#F0F2F5]">
                 From repo to report
               </h2>
             </div>
@@ -284,9 +284,9 @@ const HomePg = () =>
           </div>
           
           {/* Steps */}
-          <div className="grid grid-cols-4 gap-8 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative">
             {/* Connecting Line */}
-            <div className="absolute top-8 left-8 right-8 h-0.5 bg-linear-to-r from-[#B8F5D4] via-[#B8E8FF] to-[#FFD4B8]" />
+            <div className="hidden md:block absolute top-8 left-8 right-8 h-0.5 bg-linear-to-r from-[#B8F5D4] via-[#B8E8FF] to-[#FFD4B8]" />
             
             <ProcessStep
               number="01"
@@ -318,17 +318,17 @@ const HomePg = () =>
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-40 px-12">
-        <div className="max-w-350 mx-auto grid grid-cols-2 gap-16">
+      <section className="py-20 md:py-40 px-4 md:px-12">
+        <div className="max-w-350 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
           <div>
-            <h2 className="font-display text-7xl text-[#F0F2F5] mb-6">
+            <h2 className="font-display text-5xl md:text-7xl text-[#F0F2F5] mb-6">
               Know your<br />real level.
             </h2>
             <p className="font-mono text-sm text-[#454C5E] mb-10 font-light">
               Stop guessing. Start knowing. Get the data-driven insights that help you 
               grow as a developer.
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <Link 
                 to="/onboarding"
                 className="px-8 py-4 bg-[#B8F5D4] text-[#06070A] font-mono text-sm rounded-sm hover:bg-[#A5E5C1] transition-colors flex items-center gap-2"
@@ -345,7 +345,7 @@ const HomePg = () =>
           </div>
           
           {/* Sample Repo Card */}
-          <div className="bg-[#0D1117] border border-[#1E2330] rounded-xl p-8">
+          <div className="bg-[#0D1117] border border-[#1E2330] rounded-xl p-6 md:p-8">
             <div className="flex items-center justify-between mb-8">
               <div className="font-mono text-xs uppercase text-[#454C5E]">
                 Sample Analysis
@@ -383,6 +383,3 @@ const HomePg = () =>
 }
 
 export default HomePg
-
-
-

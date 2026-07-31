@@ -19,7 +19,7 @@ export function ScorePill({ label, value, color,text = "", showBar = true }: Sco
 
   return (
     <div
-      className="min-w-35 bg-[#0D1117] border border-[#1E2330] rounded-lg p-4"
+      className="min-w-24 md:min-w-35 bg-[#0D1117] border border-[#1E2330] rounded-lg p-4"
       style={{ borderTop: `2px solid ${colorValue}` }}
     >
       <div className="font-mono text-[13px] uppercase  mb-1">

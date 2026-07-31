@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetTimeline } from "../../services/NwConfig";
 import { DIMS, DIM_LABELS, type Dim } from "../../components/timeline/constants";
 import { KPICard, WeekCard, scoreColor } from "../../components/timeline/Cards";
@@ -137,20 +137,26 @@ export default function Timeline() {
             padding: "12px 16px",
           }}
         >
-            {msg}
+          {msg}
         </div>
       </div>
     );
   }
 
- 
 
 
-  if(loading == false && data.length == 0 ){
-          return<div
-          className="absolute top-70 left-130 flex justify-center items-center"
-          > <WelcomeBanner onStart={() => navigator("/codeEditor")} /></div>    
-      }
+
+  if (loading == false && data.length == 0) {
+    return <div
+      className="absolute top-70 left-130 flex justify-center items-center"
+    > <WelcomeBanner onStart={() => navigator("/codeEditor")} /></div>
+  }
+
+  useEffect(()=>{
+    if(!localStorage.getItem("token")){
+      navigator("/onboarding")
+    }
+  },[])
 
   return (
     <div className="mx-15 mt-10 mb-20">

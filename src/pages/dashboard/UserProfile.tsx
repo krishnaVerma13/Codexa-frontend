@@ -43,6 +43,9 @@ export default function UserProfile() {
   });
 
   useEffect(() => {
+    if(!localStorage.getItem("token")){
+      navigator("/onboarding")
+    }
     if (!data) return;
 
     setFormData((prev) => ({

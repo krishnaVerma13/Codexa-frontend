@@ -14,6 +14,7 @@ import Timeline from "./dashboard/Timeline";
 import MyRepo from "./dashboard/MyRepo";
 import Recommendation from "./dashboard/Recommendation";
 import Dashboard from "./dashboard/Dashboard";
+import { Token } from "monaco-editor";
 // import { useQuery } from "@tanstack/react-query";
 // import { GetTimeline } from "../services/NwConfig";
 
@@ -46,6 +47,9 @@ export default function UserDashboard() {
         { icon: MdLogout, label: 'Logout', path: '/logout' },
     ];
     useEffect(() => {
+        if(!localStorage.getItem("token")){
+            navigator("/onboarding")
+        }
         // console.log("userData", data);
 
     }, [])

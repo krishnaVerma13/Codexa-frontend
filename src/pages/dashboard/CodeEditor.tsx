@@ -42,6 +42,9 @@ export default function CodeEditor() {
   const isRunning = useSelector(selectIsRunning)
 
   useEffect(() => {
+    if(!localStorage.getItem("token")){
+      navigator("/onboarding")
+    }
     if (isRunning) {
       setAnalyzed(false)
     }

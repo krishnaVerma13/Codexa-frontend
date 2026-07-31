@@ -41,7 +41,8 @@
 @theme {
   --font-sans: 'Sora', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
- 
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-dm-mono: "DM Mono", monospace;
   --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
  
   @keyframes pulse-dot {

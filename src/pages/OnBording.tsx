@@ -22,7 +22,7 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
 
 
     return (<>
-        <div className="min-h-screen bg-[#06070A]  px-12 py-10">
+        <div className="min-h-screen bg-[#06070A]  px-4 md:px-12 py-10">
             {/* Logo */}
 
             <div onClick={() => navigator("/")} 
@@ -34,7 +34,7 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
                     Beta
                 </span> */}
             </div>
-            <div className="flex w-full ">
+            <div className="flex flex-col md:flex-row w-full relative gap-16 md:gap-0">
 
                 {(signUpMode === "both" || signUpMode === "github") &&
                     <div className="flex justify-center w-full ">
@@ -49,7 +49,7 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
                                 <LuGithub size={40} className="text-[#F0F2F5]" />
                             </div>
 
-                            <h1 className="font-display text-5xl text-[#F0F2F5] mb-4">
+                            <h1 className="font-display text-4xl md:text-5xl text-[#F0F2F5] mb-4">
                                 Connect your GitHub
                             </h1>
 
@@ -76,7 +76,7 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
                 }
                 {/* Vertical Divider line  */}
                 {signUpMode === "both" &&
-                    <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-[#B8F5D4]/30 to-transparent transform rotate-6" />
+                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-[#B8F5D4]/30 to-transparent transform rotate-6" />
                 }
 
                 {(signUpMode === "both" || signUpMode === "email") &&
@@ -92,7 +92,7 @@ export default function OnBording({ SignUp = "both" }: onBordingProps) {
                                 <MdOutlineMail size={40} className="text-[#F0F2F5]" />
                             </div>
 
-                            <h1 className="font-display text-5xl text-[#F0F2F5] mb-4">
+                            <h1 className="font-display text-4xl md:text-5xl text-[#F0F2F5] mb-4">
                                 Signup with Email
                             </h1>
 
